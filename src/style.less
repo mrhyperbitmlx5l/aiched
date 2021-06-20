@@ -1,0 +1,61 @@
+*{
+  margin:0;
+  padding:0;
+  border:none;
+  box-sizing:border-box;
+  -webkit-user-select:none;
+}
+html,body{
+  height:100%;
+  width:100%;
+  overflow:hidden;
+}
+#monitor {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height:100%;
+  width:100%;
+  position:relative;
+  .scope{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+  }
+}
+
+.desktop{
+  height:100%;
+  width:100%;
+  position:relative;
+  .scope{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+  }
+}
+
+.icon{
+  background-image: url(./assets/doc.png);
+  background-position: center center;
+  background-repeat:no-repeat;
+  &.firefox{
+    background-image:url(./assets/firefox.png);
+  }
+  &.chrome{
+    background-image:url(./assets/chrome.png);
+  }
+  &.safari{
+    background-image:url(./assets/safari.png);
+  }
+}
+
+input[type=text]{
+  border:1px solid;
+  cursor:text;
+  -webkit-user-select:initial;
+}
