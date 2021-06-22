@@ -14,7 +14,8 @@
 		},
 		methods: {
 			onMousedown(event) {
-				alert(event.button)
+				this.$store.commit('manager/selectIcon','')//清空 图标选择
+				//alert(event.button)
 				if (event) {
 					event.preventDefault()
 				}

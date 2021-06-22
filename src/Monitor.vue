@@ -6,6 +6,7 @@
 
 <script>
 	import './style.less'
+	import './icon.less'
 	export default {
 		name: 'monitor'
 	}

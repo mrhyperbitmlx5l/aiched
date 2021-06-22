@@ -1,14 +1,12 @@
 <template>
-	<div class="app focus" :style="{top:position.y+'px',left:position.x+'px',width:width+'px',height:height+30+'px'}">
+	<div class="app focus" v-show="!setting.hidden" :style="{top:position.y+'px',left:position.x+'px',width:width+'px',height:height+30+'px'}" @mousedown="onFocus(setting.id)" >
 		<header class="app-title" @mousedown.self="onMousedown($event)">
-			<div class="icon safari">
-
-			</div>
-			111111
+			<div class="icon" :class="setting.icon"></div>
+			{{setting.title}}
 			<div class="app-control">
 				<span class="c c1"></span>
 				<span class="c c2"></span>
-				<span class="c c3"></span>
+				<span class="c c3" @mousedown="onClose(setting.id)" ></span>
 			</div>
 		</header>
 		<div class="app-body" style="height:50px">
@@ -49,6 +47,12 @@
 			this.position.y = (h - this.height) / 2
 		},
 		methods: {
+			onFocus(id){
+				this.$store.commit('manager/focusApplication',id)
+			},
+			onClose(id){
+				this.$store.commit('manager/closeApplication',id)
+			},
 			onResize() {
 				this.resize = true
 				//let x = e.clientX;

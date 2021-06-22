@@ -1,7 +1,6 @@
 <template>
 	<div class="application-section scope">
-		<window :setting="setting"></window>
-		<window :setting="setting"></window>
+		<window v-for="app in apps" :key="app.id" :setting="app"></window>
 	</div>
 </template>
 
@@ -17,6 +16,19 @@
 				setting:{
 					
 				}
+			}
+		},
+		computed: {
+			apps(){
+				let apps = []
+				this.$store.state.manager.tasklist.forEach(app=>{
+					if(app!=null){
+						apps.push(app)
+					}
+				})
+				return apps
+				// console.log("========>" + JSON.stringify(this.$store.state.manager.tasklist))
+				// return this.$store.state.manager.tasklist
 			}
 		},
 		methods: {
