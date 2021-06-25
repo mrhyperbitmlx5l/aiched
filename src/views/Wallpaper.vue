@@ -3,6 +3,9 @@
 		<div class="wallpaper-section" @mousedown="onMousedown($event)">
 
 		</div>
+		<div class="mouse-action-section">
+			<div class="selection-section" v-show="selection.startSelection"></div>
+		</div>
 	</div>
 </template>
 
@@ -10,16 +13,29 @@
 	export default {
 		name: 'wallpaper',
 		data() {
-			return {}
+			return {
+				selection: {
+					startSelection: false,
+					startPosition: {},
+					currentPosition: {},
+					topLeft: null,
+					bottomRight: null,
+				}
+			}
 		},
 		methods: {
 			onMousedown(event) {
-				this.$store.commit('manager/selectIcon','')//清空 图标选择
-				//alert(event.button)
+				this.$store.commit('manager/selectIcon', '') //清空 图标选择
+				alert(event.button)
 				if (event) {
 					event.preventDefault()
 				}
-				//alert("====>" + event.clientX + "=====>" + event.clientY)
+				document.onmousemove = () => {
+					
+				}
+				document.onmouseup = () => {
+					
+				}
 			}
 		},
 		ready: function() {

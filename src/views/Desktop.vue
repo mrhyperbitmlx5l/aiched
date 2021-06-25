@@ -23,6 +23,8 @@
 			Wallpaper,
 			Taskbar,
 			IconGrid
+		},
+		methods: {
 		}
 	}
 </script>
