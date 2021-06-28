@@ -9,7 +9,7 @@ export default {
 	mutations: {
 		init(state) {
 			//console.log("=======>" + JSON.stringify(REGISTER))
-			REGISTER.forEach(item => {
+			REGISTER.application.forEach(item => {
 				let app = {}
 				app.id = item.id
 				app.name = item.name
@@ -35,46 +35,47 @@ export default {
 			})
 		},
 		focusApplication(state, id) {
-			let o = {} 
-			state.tasklist.forEach(function(item) {
-				if (item.id == id) {
-					o = item
+			let flag = false
+			let last = -1
+			state.tasklist.forEach(function(item,index) {
+				if ((!utils.StringIsNull(id) && item.id == id && !item.hidden)) {
+					item.focus = true
+					flag = true
+				} else {
+					item.focus = false
 				}
+				if(!item.hidden){
+					last = index
+				}				
 			})
-			//console.log(JSON.stringify(o))
-			if (!utils.ObjectIsNull(o)) {
-				state.tasklist.forEach(function(item, i) {
-					//console.log('forEach===========>' + i)
-					if (item.id == id) {
-						state.tasklist.splice(i, 1)
-					}
-				})
-				state.tasklist.push(o)
-			}
+			//console.log(id +"  item2========>" + last + "===>" + JSON.stringify(state.tasklist))
+			if(!flag && last >= 0 && state.tasklist.length >= 1) {
+				state.tasklist[last].focus = true		
+			} 
 		},
 		openApplication(state, id) {
-			let object = state.applications.filter(t => t.id == id)[0]
-			let app = {}
-			app.id = object.id
-			app.width = object.width > 0 ? object.width : 0
-			app.hight = object.hight > 0 ? object.hight : 0
-			app.title = object.name
-			app.icon = object.icon
-			app.hidden = false;
-			state.tasklist.push(app)
+			let t = state.tasklist.filter(t => t.id == id)
+			if(utils.ObjectIsNull(t) && (state.tasklist.length <= REGISTER.MAXTASK)){
+				let object = state.applications.filter(t => t.id == id)[0]
+				let app = {}
+				app.id = object.id
+				app.width = object.width > 0 ? object.width : 0
+				app.hight = object.hight > 0 ? object.hight : 0
+				app.title = object.name
+				app.icon = object.icon
+				app.hidden = false
+				app.focus = true
+				state.tasklist.push(app)
+			}
 		},
-		showApplication(state, id) {
+		showOrhiddenApplication(state, id) {
 			state.tasklist.forEach(function(item) {
 				if (item.id == id) {
-					item.hidden = false
-				}
-			})
-			//this.focusApplication(state, id)
-		},
-		hideApplication(state, id) {
-			state.tasklist.forEach(function(item) {
-				if (item.id == id) {
-					item.hidden = true
+					if(item.hidden == false){
+						item.hidden = true
+					} else {
+						item.hidden = false
+					}
 				}
 			})
 		},
@@ -90,7 +91,24 @@ export default {
 		}
 	},
 	actions: {
-
-
+		focusTask({commit}, id){
+			commit('showOrhiddenApplication', id)
+			commit('focusApplication', id)
+		},
+		showOrhidden({commit}, id){
+			commit('showOrhiddenApplication', id)
+			commit('focusApplication', '')
+		},
+		selectIcon({commit}, id) {
+			commit('selectIcon', id)
+		},
+		openTask({commit}, id) {
+			commit('openApplication', id)
+			commit('focusApplication', id)
+		},
+		closeTask({commit}, id) {
+			commit('closeApplication', id)
+			commit('focusApplication', '')
+		}
 	},
 }

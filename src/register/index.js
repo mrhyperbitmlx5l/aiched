@@ -1,6 +1,8 @@
 /** 类似于 windows 的注册表，所有可用的 application & icon都在这里定义**/
-
-const register = [
+const register = {
+	"MAXTASK":50,
+	"application":
+	[
 	{
 		"id":"0001",
 		"name":"第一",
@@ -52,5 +54,7 @@ const register = [
 		"icon":"chrome",
 	}
 ]
+}
 
 export default register
+

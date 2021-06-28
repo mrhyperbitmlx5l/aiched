@@ -7,6 +7,31 @@ export function ObjectIsNull(object) {
 	}
 	return Object.keys(object).length === 0
 }
+export function StringIsNull(str){
+	return '' === str ||str === null
+}
+export function changeOfPositionByIndex(array,index1,index2){
+	console.log(""+ index1 +""+ index2 + "" +array)
+}
+
+export function getIndexOfArrayById(array,id){
+	array.forEach((item,index) => {
+		if(item.id == id){
+			return index
+		}
+	})
+	return -1
+}
+
+export function getItemOfArrayById(array,id){
+	array.forEach(item => {
+		if(item.id == id){
+			return item
+		}
+	})
+	return null
+}
+
 /**
  * Localstorage 存储数据
  * @param {String} key
@@ -53,6 +78,7 @@ export const removeLocalstorage = key => {
 
 export default {
 	ObjectIsNull,
+	StringIsNull,
 	setLocalstorage,
 	getLocalstorage,
 	removeLocalstorage

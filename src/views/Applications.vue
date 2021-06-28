@@ -21,11 +21,18 @@
 		computed: {
 			apps(){
 				let apps = []
+				let focusapp = null
 				this.$store.state.manager.tasklist.forEach(app=>{
-					if(app!=null){
+					if(app!=null && !app.focus){
 						apps.push(app)
+					} 
+					if(app.focus){
+						focusapp = app
 					}
 				})
+				if(focusapp != null){
+					apps.push(focusapp)
+				}
 				return apps
 				// console.log("========>" + JSON.stringify(this.$store.state.manager.tasklist))
 				// return this.$store.state.manager.tasklist

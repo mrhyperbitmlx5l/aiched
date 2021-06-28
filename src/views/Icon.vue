@@ -44,12 +44,7 @@ export default {
 		//console.log('====>' + (this.order % this.grid.row));
 	},
 	methods: {
-		getXByCell() {
-			return 10;
-		},
-		getYByCell() {
-			return 10;
-		},
+		
 		onMousedown(event) {
 			console.log('onMousedown==========>' + event);
 		},
@@ -57,10 +52,10 @@ export default {
 			console.log('onContextmenu==========>' + event);
 		},
 		onClick() {
-			this.$store.commit('manager/selectIcon',this.item.id)
+			this.$store.dispatch('manager/selectIcon',this.item.id)
 		},
 		onDblclick() {
-			this.$store.commit('manager/openApplication',this.item.id)
+			this.$store.dispatch('manager/openTask',this.item.id)
 		},
 		onDragstart() {},
 		onDragend() {}
