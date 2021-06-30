@@ -3,7 +3,7 @@
 		class="window"
 		:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized }"
 		v-show="!setting.hidden"
-		:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 30 + 'px' }"
+		:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px' }"
 		@mousedown="onFocus(setting.id)"
 	>
 		<header class="window-title" @mousedown.self="onMousedown($event)">
@@ -11,13 +11,13 @@
 			{{ setting.title }}
 			<div class="window-control">
 				<span class="button min" @mousedown="onMin(setting.id)"></span>
-				<span class="button max" v-show="resizable" @mousedown="resizable&&onMax()"></span>
+				<span class="button max" @mousedown="onMax()"></span>
 				<span class="button close" @mousedown="onClose(setting.id)"></span>
 			</div>
 		</header>
 		<div class="window-body" style="height:50px">{{ this.position.x }} --------- {{ this.position.y }}</div>
 		<div class="resize-overlay" v-show="overlayShow"></div>
-		<div v-for="(value, index) in resizeDirection" :key="index" v-show="resizable" :class="value" @mousedown="onResize($event)"></div>
+		<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown="onResize(value)"></div>
 	</div>
 </template>
 
@@ -43,15 +43,15 @@ export default {
 			},
 			oldposition: {},
 			overlayShow: false,
-			resizeDirection: [
-				'resize-handle resize-handle-t',
-				'resize-handle resize-handle-b',
-				'resize-handle resize-handle-l',
-				'resize-handle resize-handle-r',
-				'resize-handle resize-handle-tl',
-				'resize-handle resize-handle-tr',
-				'resize-handle resize-handle-bl',
-				'resize-handle resize-handle-br'
+			resizeSide: [
+				'side-top',
+				'side-bottom',
+				'side-left',
+				'side-right',
+				'angle-top-left',
+				'angle-top-right',
+				'angle-bottom-left',
+				'angle-bottom-right'
 			]
 		};
 	},
@@ -60,7 +60,6 @@ export default {
 		let h = document.body.clientHeight;
 		this.width = this.setting.width > 0 ? this.setting.width : w / 2;
 		this.height = this.setting.height > 0 ? this.setting.height : w / 3;
-
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
 	},
@@ -76,7 +75,8 @@ export default {
 		},
 		onMax() {
 			if (this.maximized && this.oldPosition) {
-				this.animating = true;
+				this.animating = true
+				this.resizable = true
 				clearTimeout(this.timer);
 				this.timer = setTimeout(() => {
 					this.maximized = false;
@@ -91,7 +91,8 @@ export default {
 					}, 500);
 				});
 			} else {
-				this.animating = true;
+				this.animating = true
+				this.resizable = false
 				clearTimeout(this.timer);
 				this.timer = setTimeout(() => {
 					this.maximized = true;
@@ -103,7 +104,7 @@ export default {
 					};
 					this.position.y = 0;
 					this.position.x = 0;
-					this.height = document.body.clientHeight * 0.9
+					this.height = document.body.clientHeight * 0.95
 					this.width = document.body.clientWidth;
 					clearTimeout(this.timer);
 					this.timer = setTimeout(() => {
@@ -112,39 +113,57 @@ export default {
 				});
 			}
 		},
-		onResize() {
-			this.resize = true;
-			//let x = e.clientX;
-			//let y = e.clientY;
-			// document.onmousemove = (e) => {
-			// 	if (this.resize) {
-			// 		this.width = this.width +  e.clientX - x
-			// 		this.height = this.height + e.clientY - y
-			// 	}
-			// }
-			// document.onmouseup = () => {
-			// 	this.resize = false
-			// }
+		onResize(direction) {
+			this.resize = true
+			this.overlayShow = true
+			document.onmousemove = (event) => {
+				if (this.resize) {
+					let x = event.clientX;
+					let y = event.clientY;
+					let mx = document.body.clientWidth
+					let my = document.body.clientHeight * 0.95
+					x = x>=0 ? (x >=mx ? mx:x ):0
+					y = y>=0 ? (y >=my ? my:y ):0
+					if(direction.indexOf("top") >=0 ){
+						this.height = this.height + (this.position.y - y)
+						this.position.y = y
+					}
+					if(direction.indexOf("left") >=0 ){
+						this.width = this.width + (this.position.x - x)
+						this.position.x = x
+					}
+					if(direction.indexOf("bottom") >=0 ){
+						this.height = this.height + (y - (this.position.y + this.height))
+					}
+					if(direction.indexOf("right") >=0 ){
+						this.width = this.width + (x - (this.position.x + this.width))
+					}
+				}
+			}
+			document.onmouseup = () => {
+				this.resize = false
+				this.overlayShow = false
+			}
 		},
 		onMousedown(e) {
 			let w = e.clientX - this.position.x;
 			let h = e.clientY - this.position.y;
-			this.drag = true;
-			document.onmousemove = e => {
-				if (this.drag) {
-					this.position.x = e.clientX - w;
-					this.position.y = e.clientY - h;
-					if (this.position.x <= 0) {
-						this.position.x = 0;
+			if(!this.maximized){
+				this.drag = true;
+				document.onmousemove = e => {
+					if (this.drag) {
+						let mx = document.body.clientWidth
+						let my = document.body.clientHeight * 0.95
+						this.position.x = e.clientX - w;
+						this.position.y = e.clientY - h;
+						this.position.x = this.position.x <=0 ? 0:((this.position.x + this.width) >= mx ? (mx- this.width):this.position.x)
+						this.position.y = this.position.y <=0 ? 0:((this.position.y + this.height) >= my ? (my- this.height):this.position.y)
 					}
-					if (this.position.y <= 0) {
-						this.position.y = 0;
-					}
+				};
+				document.onmouseup = () => {
+					this.drag = false;
 				}
-			};
-			document.onmouseup = () => {
-				this.drag = false;
-			};
+			}
 		}
 	}
 };
@@ -317,7 +336,7 @@ export default {
 	}
 
 	@reactionWidth: 4px;
-	.resize-handle {
+	.resize-side {
 		position: absolute;
 	}
 	.resize-overlay {
@@ -327,56 +346,56 @@ export default {
 		height: 100%;
 		width: 100%;
 	}
-	.resize-handle-r {
+	.side-right {
 		right: 0;
 		bottom: 0;
 		height: 100%;
 		width: @reactionWidth;
 		cursor: e-resize;
 	}
-	.resize-handle-b {
+	.side-bottom {
 		right: 0;
 		bottom: 0;
 		width: 100%;
 		height: @reactionWidth;
 		cursor: s-resize;
 	}
-	.resize-handle-l {
+	.side-left {
 		left: 0;
 		top: 0;
 		height: 100%;
 		width: @reactionWidth;
 		cursor: w-resize;
 	}
-	.resize-handle-t {
+	.side-top {
 		left: 0;
 		top: 0;
 		width: 100%;
 		height: @reactionWidth;
 		cursor: n-resize;
 	}
-	.resize-handle-br {
+	.angle-bottom-right {
 		right: 0;
 		bottom: 0;
 		width: @reactionWidth*2;
 		height: @reactionWidth*2;
 		cursor: se-resize;
 	}
-	.resize-handle-bl {
+	.angle-bottom-left {
 		left: 0;
 		bottom: 0;
 		width: @reactionWidth*2;
 		height: @reactionWidth*2;
 		cursor: sw-resize;
 	}
-	.resize-handle-tr {
+	.angle-top-right {
 		top: 0;
 		right: 0;
 		width: @reactionWidth*2;
 		height: @reactionWidth*2;
 		cursor: ne-resize;
 	}
-	.resize-handle-tl {
+	.angle-top-left {
 		top: 0;
 		left: 0;
 		width: @reactionWidth*2;
