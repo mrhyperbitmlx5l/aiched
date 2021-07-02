@@ -14,6 +14,9 @@ export default {
 				app.id = item.id
 				app.name = item.name
 				app.icon = item.icon
+				app.width = item.width > 0 ? item.width : 0
+				app.height = item.height > 0 ? item.height : 0
+				app.page = item.page
 				app.selected = false
 				state.applications.push(app)
 			})
@@ -59,10 +62,11 @@ export default {
 				let object = state.applications.filter(t => t.id == id)[0]
 				let app = {}
 				app.id = object.id
-				app.width = object.width > 0 ? object.width : 0
-				app.hight = object.hight > 0 ? object.hight : 0
+				app.width = object.width
+				app.height = object.height
 				app.title = object.name
 				app.icon = object.icon
+				app.page = utils.ObjectIsNull(object.page) ? "":object.page
 				app.hidden = false
 				app.focus = true
 				state.tasklist.push(app)

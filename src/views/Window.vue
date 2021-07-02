@@ -15,7 +15,11 @@
 				<span class="button close" @mousedown="onClose(setting.id)"></span>
 			</div>
 		</header>
-		<div class="window-body" style="height:50px">{{ this.position.x }} --------- {{ this.position.y }}</div>
+		<div class="window-body">
+			<keep-alive>
+				<component v-bind:is="subComponent" :window.sync="window" ></component>
+			</keep-alive>
+		</div>
 		<div class="resize-overlay" v-show="overlayShow"></div>
 		<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown="onResize(value)"></div>
 	</div>
@@ -29,6 +33,7 @@ export default {
 	},
 	data() {
 		return {
+			subComponent:{},
 			timer: {},
 			drag: false,
 			resize: false,
@@ -55,6 +60,11 @@ export default {
 			]
 		};
 	},
+	computed: {
+		window(){
+			return {"width":this.width,"height":this.height}
+		}
+	},
 	created() {
 		let w = document.body.clientWidth;
 		let h = document.body.clientHeight;
@@ -62,6 +72,8 @@ export default {
 		this.height = this.setting.height > 0 ? this.setting.height : w / 3;
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
+		console.log("====>" + this.setting.page)
+		this.subComponent =() => import('../components/' + this.setting.page + '.vue');
 	},
 	methods: {
 		onFocus(id) {
@@ -178,8 +190,7 @@ export default {
 	border-radius: 5px;
 	overflow: hidden;
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-	@titleHeight: 30px;
-
+	
 	&.animating {
 		transition: all ease 0.5s;
 	}
@@ -198,12 +209,6 @@ export default {
 			position: absolute;
 			top: 4px;
 			left: 5px;
-
-			/*display: inline-block;*/
-			/*vertical-align: top;*/
-			/*position:relative;*/
-			/*top:5px;*/
-
 			height: 18px;
 			width: 18px;
 			background-size: cover;
@@ -212,7 +217,6 @@ export default {
 
 	&.focus {
 		box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
-
 		.window-title {
 			background: #f5f8ff;
 			color: #333;

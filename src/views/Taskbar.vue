@@ -43,17 +43,17 @@ export default {
 
 <style lang="less">
 @import '../global.less';
-@h: 40px;
+
 .start {
 	width: 5%;
 	float: left;
-	height: @h;
+	height: @taskHeight;
 	margin: 15px;
 }
 .taskbar-section {
 	width: 100%;
-	height: @h;
-	background: #f9f9f9;
+	height: @taskHeight;
+	background: @taskbackground;
 	position: absolute;
 	bottom: 0;
 	top: auto !important;
@@ -66,16 +66,16 @@ export default {
 	float: right;
 	overflow: hidden;
 	border-left: 2px double #333333;
-	height: @h;
+	height: @taskHeight;
 	cursor: default;
 
 	.app-item {
 		float: left;
-		height: @h;
+		height: @taskHeight;
 		min-width: 50px;
 		padding: 0 20px 0 15px;
 		text-align: center;
-		line-height: @h;
+		line-height: @taskHeight;
 		font-size: 14px;
 		border-right: 1px solid #e9e9e9;
 

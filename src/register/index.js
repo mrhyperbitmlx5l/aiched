@@ -1,16 +1,22 @@
 /** 类似于 windows 的注册表，所有可用的 application & icon都在这里定义**/
 const register = {
-	"MAXTASK":50,
+	"MAXTASK":50,/**最大任务数 **/
+	"titleHeight":30,/**标题栏高度 see global.less !!!**/
+	"taskHeight":40,/**任务栏高度  see global.less !!!**/
 	"application":
 	[
 	{
 		"id":"0001",
 		"name":"第一",
+		"page":"HelloWorld",
 		"icon":"firefox",
 	},
 	{
 		"id":"0002",
 		"name":"第二",
+		"page":"calculator",
+		"width":400,
+		"height":400,
 		"icon":"chrome",
 	},
 	{	
