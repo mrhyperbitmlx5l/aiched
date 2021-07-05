@@ -13,7 +13,7 @@ const register = {
 	},
 	{
 		"id":"0002",
-		"name":"第二",
+		"name":"简易计算器",
 		"page":"calculator",
 		"width":400,
 		"height":400,

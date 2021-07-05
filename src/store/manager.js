@@ -75,7 +75,7 @@ export default {
 		showOrhiddenApplication(state, id) {
 			state.tasklist.forEach(function(item) {
 				if (item.id == id) {
-					if(item.hidden == false){
+					if(item.hidden == false && item.focus){
 						item.hidden = true
 					} else {
 						item.hidden = false

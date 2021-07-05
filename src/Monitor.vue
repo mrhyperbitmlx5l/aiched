@@ -7,8 +7,12 @@
 <script>
 	import './style.less'
 	import './icon.less'
+
 	export default {
-		name: 'monitor'
+		name: 'monitor',
+		created() {
+			
+		}
 	}
 </script>
 
