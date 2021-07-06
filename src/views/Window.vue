@@ -72,12 +72,13 @@ export default {
 		this.height = this.setting.height > 0 ? this.setting.height : w / 3;
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
-		console.log("====>" + this.setting.page)
+		//console.log("====>" + this.setting.page)
 		this.subComponent =() => import('../components/' + this.setting.page + '.vue');
 	},
 	methods: {
 		onFocus(id) {
-			this.$store.commit('manager/focusApplication', id);
+			this.$store.commit('manager/focusApplication', id)
+			this.$store.commit('manager/selectIcon', '')
 		},
 		onClose(id) {
 			this.$store.dispatch('manager/closeTask', id);

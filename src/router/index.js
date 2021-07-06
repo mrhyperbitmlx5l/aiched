@@ -11,9 +11,9 @@ Vue.use(VueRouter)
     component: Desktop
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/lockScreen',
+    name: 'LockScreen',
+    component: () => import(/* webpackChunkName: "about" */ '../views/LockScreen.vue')
   }
 ]
 

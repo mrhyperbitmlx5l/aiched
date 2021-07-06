@@ -3,6 +3,7 @@ import * as utils from '@/utils/index'
 export default {
 	namespaced: true,
 	state: {
+		startMenu:false,
 		applications: [],
 		tasklist: [],
 	},
@@ -29,6 +30,9 @@ export default {
 					item.selected = false
 				}
 			})
+			if(state.startMenu){
+				state.startMenu = false
+			}
 		},
 		getTask(state, id) {
 			state.tasklist.forEach(function(item) {
@@ -92,6 +96,9 @@ export default {
 			})
 			//console.log("state.tasklist2========>" + JSON.stringify(state.tasklist))
 			//		
+		},
+		openStartMenu(state){
+			state.startMenu = !state.startMenu
 		}
 	},
 	actions: {

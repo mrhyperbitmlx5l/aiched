@@ -1,10 +1,10 @@
 <template>
-	<div class="desktop">
-		<wallpaper class="scope"></wallpaper>
+	<div class="desktop" >
+		<wallpaper></wallpaper>
 		<icon-grid></icon-grid>
 		<taskbar></taskbar>
 		<application ></application>
-		
+		<ContextMenu></ContextMenu>
 	</div>
 </template>
 
@@ -13,6 +13,7 @@
 	import Wallpaper from './Wallpaper.vue'
 	import Taskbar from './Taskbar.vue'
 	import IconGrid from './IconGrid.vue'
+	import ContextMenu from './ContextMenu.vue'
 	export default {
 		name: 'Desktop',
 		beforeCreate(){
@@ -22,9 +23,13 @@
 			Application,
 			Wallpaper,
 			Taskbar,
-			IconGrid
+			IconGrid,
+			ContextMenu
 		},
 		methods: {
+			clean(){
+				this.$store.commit('manager/selectIcon', '')
+			}
 		}
 	}
 </script>

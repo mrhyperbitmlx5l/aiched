@@ -1,28 +1,52 @@
 <template>
 	<div class="taskbar-section scope">
-		<div class="app-list">
-			<div class="app-item" :class="{ actived: app.focus }" v-for="app in apps" :key="app.id" @click="onClick(app.id)" :style="{width:itemWidth + 'px'}">
-				<span class="icon" :class="app.icon"></span>
-				{{ app.title }}
+		<div class="dog-start">
+			<div class="dog-icons" @click="onStart">
+				<a href="#"><i class="fa fa-magic"></i></a>
 			</div>
 		</div>
+		<div class="task-list">
+			<div class="task-item" :class="{ actived: task.focus }" v-for="task in tasklist" :key="task.id" @click="onClick(task.id)" :style="{ width: itemWidth + 'px' }">
+				<span class="icon" :class="task.icon"></span>
+				{{ task.title }}
+			</div>
+		</div>
+		<transition name="zoom" enter-active-class="animate zoomIn" leave-active-class="animated zoomOut">
+		<div class="dog-menu" v-show="showmenu" >
+			<div class="dog-menu-list">
+				<ul >
+					<li><img src="firefox-32.png" alt="" />列表</li>
+					<li><a href="#"><div class="icon firefox"></div>Deliciousa></a></li>
+					<li><a href="#"><img src="delicious_32.png" alt="" />Deliciousa></a></li>
+				</ul>
+				</div>
+			<div class="dog-menu-links" >
+				<ul >
+					<li ><a href="#"><span>Documentsspan></span></a></li>
+					<li ><a href="#"><span>Documentsspan></span></a></li>
+				</ul>
+			</div>
+		</div>
+		</transition>
 	</div>
 </template>
 <script>
 export default {
 	name: 'Taskbar',
 	data() {
-		return {};
+		return {
+
+		};
 	},
 	computed: {
-		apps() {
-			let apps = [];
-			this.$store.state.manager.tasklist.forEach(app => {
-				if (app != null) {
-					apps.push(app);
+		tasklist() {
+			let tasks = [];
+			this.$store.state.manager.tasklist.forEach(task => {
+				if (task != null) {
+					tasks.push(task);
 				}
 			});
-			return apps;
+			return tasks;
 		},
 		itemWidth() {
 			if (this.$store.state.manager.tasklist.length < 5) {
@@ -31,11 +55,17 @@ export default {
 				let ww = document.body.clientWidth * 0.95;
 				return Math.floor(ww / this.$store.state.manager.tasklist.length);
 			}
+		},
+		showmenu() {
+			return this.$store.state.manager.startMenu
 		}
 	},
 	methods: {
 		onClick(id) {
-			this.$store.dispatch('manager/focusTask', id);
+			this.$store.dispatch('manager/focusTask', id)
+		},
+		onStart() {
+			this.$store.commit('manager/openStartMenu')
 		}
 	}
 };
@@ -44,11 +74,11 @@ export default {
 <style lang="less">
 @import '../global.less';
 
-.start {
-	width: 5%;
+.dog-start {
+	width: 8%;
+	margin: 0 auto;
 	float: left;
 	height: @taskHeight;
-	margin: 15px;
 }
 .taskbar-section {
 	width: 100%;
@@ -61,15 +91,15 @@ export default {
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
-.app-list {
-	width: 95%;
+.task-list {
+	width: 92%;
 	float: right;
 	overflow: hidden;
 	border-left: 2px double #333333;
 	height: @taskHeight;
 	cursor: default;
 
-	.app-item {
+	.task-item {
 		float: left;
 		height: @taskHeight;
 		min-width: 50px;
@@ -104,4 +134,167 @@ export default {
 		}
 	}
 }
+
+.dog-icons {
+	padding: 0;
+	list-style: none;
+	margin: 1em;
+	display: inline-block;
+	margin: 0.15em;
+	position: relative;
+	font-size: 1.2em;
+}
+
+.dog-icons i {
+	color: #fff;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	transition: all 265ms ease-out;
+}
+.dog-icons a {
+	display: inline-block;
+}
+.dog-icons a:before {
+	transform: scale(1);
+	-ms-transform: scale(1);
+	-webkit-transform: scale(1);
+	content: ' ';
+	width: @taskHeight;
+	height: @taskHeight;
+	border-radius: 100%;
+	display: block;
+	background: linear-gradient(45deg, #1da1f2, #c648c8);
+	transition: all 265ms ease-out;
+}
+.dog-icons a:hover:before {
+	transform: scale(0);
+	transition: all 265ms ease-in;
+}
+.dog-icons a:hover i {
+	transform: scale(2.2);
+	-ms-transform: scale(2.2);
+	-webkit-transform: scale(2.2);
+	color: #1da1f2;
+	background: -webkit-linear-gradient(45deg, #1da1f2, #c648c8);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	transition: all 265ms ease-in;
+}
+
+.fa-magic:before {
+	content: '狼';
+}
+.fa {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.dog-menu {
+	bottom :@taskHeight;
+	left: 0px;
+	border: solid 1px #102a3e;
+	overflow: visible;
+	display: inline-block;
+	min-width: 400px;
+	//margin: 60px 0 0 20px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	position: fixed;
+	box-shadow: inset 0 0 1px #fff;
+	-moz-box-shadow: inset 0 0 1px #fff;
+	-webkit-box-shadow: inset 0 0 1px #fff;
+	opacity: 0.9;
+	background-color: #619bb9;
+	background: -moz-linear-gradient(top, rgba(50, 123, 165, 0.75), rgba(46, 75, 90, 0.75) 50%, rgba(92, 176, 220, 0.75));
+	background: -webkit-gradient(linear, center top, center bottom, from(#327aa4), color-stop(45%, #2e4b5a), to(#5cb0dc));
+	ul{
+		list-style: none;
+	}
+}
+
+.dog-menu-list {
+	width:50%;float:left;
+	background: #fff;
+	border: solid 1px #365167;
+	margin: 7px 0 7px 7px;
+	box-shadow: 0 0 1px #fff;
+	-moz-box-shadow: 0 0 1px #fff;
+	-webkit-box-shadow: 0 0 1px #fff;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	min-height: 400px;
+	a {
+		border: solid 1px transparent;
+		display: block;
+		padding: 3px;
+		margin: 3px;
+		color: #4b4b4b;
+		text-decoration: none;
+	}
+	a:hover {
+		border: solid 1px #7da2ce;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		box-shadow: inset 0 0 1px #fff;
+		-moz-box-shadow: inset 0 0 1px #fff;
+		-webkit-box-shadow: inset 0 0 1px #fff;
+		background-color: #cfe3fd;
+		background: -moz-linear-gradient(top, #dcebfd, #c2dcfd);
+		background: -webkit-gradient(linear, center top, center bottom, from(#dcebfd), to(#c2dcfd));
+	}
+	a img {
+		border: 0;
+		vertical-align: middle;
+		margin: 0 5px 0 0;
+	}
+}
+
+.dog-menu-links {
+	width:40%;float:left;
+	margin: 7px;
+	li.icon {
+		text-align: center;
+	}
+	a {
+		border: solid 1px transparent;
+		display: block;
+		margin: 5px 0;
+		position: relative;
+		color: #fff;
+		text-decoration: none;
+		min-width: 120px;
+	}
+	a:hover {
+		border: solid 1px #000;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		box-shadow: 0 0 1px #fff;
+		-moz-box-shadow: inset 0 0 1px #fff;
+		-webkit-box-shadow: inset 0 0 1px #fff;
+		background-color: #658da0;
+		background: -moz-linear-gradient(center left, rgba(81, 115, 132, 0.55), rgba(121, 163, 184, 0.55) 50%, rgba(81, 115, 132, 0.55));
+		background: -webkit-gradient(linear, 0% 100%, 100% 100%, from(#517384), color-stop(50%, #79a3b8), to(#517384));
+	}
+	a span {
+		padding: 5px;
+		display: block;
+	}
+	a:hover span {
+		background: -moz-linear-gradient(center top, transparent, transparent 49%, rgba(2, 37, 58, 0.5) 50%, rgba(63, 111, 135, 0.5));
+		background: -webkit-gradient(
+			linear,
+			center top,
+			center bottom,
+			from(transparent),
+			color-stop(49%, transparent),
+			color-stop(50%, rgba(2, 37, 58, 0.5)),
+			to(rgba(63, 111, 135, 0.5))
+		);
+	}
+} 
 </style>
