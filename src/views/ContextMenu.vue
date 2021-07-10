@@ -2,14 +2,14 @@
 	<div
 		class="context-menu-section"
 		:style="{
-			top: '400px',
-			left: '300px'
+			top: y + 'px',
+			left: x + 'px'
 		}"
 	>
 		<div class="context-menu">
 			<ul>
 				<li
-					v-for="item in data"
+					v-for="item in data.list"
 					:key="item.id"
 					:class="{ disabled: item.disabled, divide: item.type == 'divide', 'list-item': item.type !== 'divide' }"
 					@click="onClick(item)"
@@ -29,7 +29,12 @@ export default {
 	name: 'ContextMenu',
 	data() {
 		return {
-			data: [
+			data: {
+				position:{
+					x:0,
+					y:0
+				},
+				list:[
 				{
 					id: '1',
 					text: '6666666',
@@ -55,7 +60,8 @@ export default {
 					callback: function() {}
 				}
 			]
-		};
+			}
+		}
 	},
 	beforeCreate() {},
 	components: {},

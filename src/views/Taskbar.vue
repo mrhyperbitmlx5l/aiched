@@ -12,21 +12,26 @@
 			</div>
 		</div>
 		<transition name="zoom" enter-active-class="animate zoomIn" leave-active-class="animated zoomOut">
-		<div class="dog-menu" v-show="showmenu" >
-			<div class="dog-menu-list">
-				<ul >
-					<li><img src="firefox-32.png" alt="" />列表</li>
-					<li><a href="#"><div class="icon firefox"></div>Deliciousa></a></li>
-					<li><a href="#"><img src="delicious_32.png" alt="" />Deliciousa></a></li>
-				</ul>
+			<div class="dog-menu" v-show="showmenu">
+				<div class="dog-menu-list">
+					<ul>
+						<li>列表</li>
+						<li v-for="item in applications" :key="item.id">
+							<a href="#" @click="openApplication(item.id)"><div class="icon" :class="item.icon"></div>{{item.name}}</a>
+						</li>
+					</ul>
 				</div>
-			<div class="dog-menu-links" >
-				<ul >
-					<li ><a href="#"><span>Documentsspan></span></a></li>
-					<li ><a href="#"><span>Documentsspan></span></a></li>
-				</ul>
+				<div class="dog-menu-links">
+					<ul>
+						<li>
+							<a href="#"><span>Documentsspan></span></a>
+						</li>
+						<li>
+							<a href="#"><span>Documentsspan></span></a>
+						</li>
+					</ul>
+				</div>
 			</div>
-		</div>
 		</transition>
 	</div>
 </template>
@@ -34,11 +39,12 @@
 export default {
 	name: 'Taskbar',
 	data() {
-		return {
-
-		};
+		return {};
 	},
 	computed: {
+		applications() {
+			return this.$store.state.manager.applications
+		},
 		tasklist() {
 			let tasks = [];
 			this.$store.state.manager.tasklist.forEach(task => {
@@ -57,10 +63,14 @@ export default {
 			}
 		},
 		showmenu() {
-			return this.$store.state.manager.startMenu
+			return this.$store.state.manager.startMenu;
 		}
 	},
 	methods: {
+		openApplication(id){
+			this.$store.dispatch('manager/openTask',id)
+			this.$store.commit('manager/selectIcon', '')
+		},
 		onClick(id) {
 			this.$store.dispatch('manager/focusTask', id)
 		},
@@ -83,8 +93,9 @@ export default {
 .taskbar-section {
 	width: 100%;
 	height: @taskHeight;
-	background: @taskbackground;
+	background: @taskbackground; // hsla(0,100%,80%,0.5);
 	position: absolute;
+	//-webkit-filter: blur(0.5px); /* Chrome, Opera */
 	bottom: 0;
 	top: auto !important;
 	left: 0;
@@ -195,7 +206,7 @@ export default {
 }
 
 .dog-menu {
-	bottom :@taskHeight;
+	bottom: @taskHeight;
 	left: 0px;
 	border: solid 1px #102a3e;
 	overflow: visible;
@@ -212,13 +223,20 @@ export default {
 	background-color: #619bb9;
 	background: -moz-linear-gradient(top, rgba(50, 123, 165, 0.75), rgba(46, 75, 90, 0.75) 50%, rgba(92, 176, 220, 0.75));
 	background: -webkit-gradient(linear, center top, center bottom, from(#327aa4), color-stop(45%, #2e4b5a), to(#5cb0dc));
-	ul{
+	ul {
 		list-style: none;
+	}
+	.icon{
+		display: inline-block;
+		height: 18px;
+		width: 18px;
+		background-size: cover;
 	}
 }
 
 .dog-menu-list {
-	width:50%;float:left;
+	width: 50%;
+	float: left;
 	background: #fff;
 	border: solid 1px #365167;
 	margin: 7px 0 7px 7px;
@@ -234,6 +252,7 @@ export default {
 		padding: 3px;
 		margin: 3px;
 		color: #4b4b4b;
+		text-align: left;
 		text-decoration: none;
 	}
 	a:hover {
@@ -255,7 +274,8 @@ export default {
 }
 
 .dog-menu-links {
-	width:40%;float:left;
+	width: 40%;
+	float: left;
 	margin: 7px;
 	li.icon {
 		text-align: center;
@@ -296,5 +316,5 @@ export default {
 			to(rgba(63, 111, 135, 0.5))
 		);
 	}
-} 
+}
 </style>
