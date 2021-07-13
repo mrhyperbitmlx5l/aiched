@@ -31,7 +31,13 @@ export default {
 	},
 	computed: {
 		icons() {
-			return this.$store.state.manager.applications;
+			let icons = []
+			this.$store.state.manager.applications.forEach(item => {
+				if(item.link){
+					icons.push(item)
+				}
+			})
+			return icons;
 		}
 	},
 	methods: {}

@@ -7,31 +7,42 @@ export function ObjectIsNull(object) {
 	}
 	return Object.keys(object).length === 0
 }
-export function StringIsNull(str){
-	return '' === str ||str === null
+export function StringIsNull(str) {
+	return '' === str || str === null
 }
-export function changeOfPositionByIndex(array,index1,index2){
-	console.log(""+ index1 +""+ index2 + "" +array)
+export function changeOfPositionByIndex(array, index1, index2) {
+	console.log("" + index1 + "" + index2 + "" + array)
 }
 
-export function getIndexOfArrayById(array,id){
-	array.forEach((item,index) => {
-		if(item.id == id){
+export function getIndexOfArrayById(array, id) {
+	array.forEach((item, index) => {
+		if (item.id == id) {
 			return index
 		}
 	})
 	return -1
 }
 
-export function getItemOfArrayById(array,id){
+export function getItemOfArrayById(array, id) {
 	array.forEach(item => {
-		if(item.id == id){
+		if (item.id == id) {
 			return item
 		}
 	})
 	return null
 }
-
+//生成从minNum到maxNum的随机数
+export function randomNum(minNum, maxNum) {
+	switch (arguments.length) {
+		case 1:
+			return parseInt(Math.random() * minNum + 1, 10)
+		case 2:
+			return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
+			//或者 Math.floor(Math.random()*( maxNum - minNum + 1 ) + minNum )
+		default:
+			return 0
+	}
+}
 /**
  * Localstorage 存储数据
  * @param {String} key
@@ -79,6 +90,7 @@ export const removeLocalstorage = key => {
 export default {
 	ObjectIsNull,
 	StringIsNull,
+	randomNum,
 	setLocalstorage,
 	getLocalstorage,
 	removeLocalstorage

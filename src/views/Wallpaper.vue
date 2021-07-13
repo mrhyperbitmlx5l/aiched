@@ -1,6 +1,6 @@
 <template>
 	<div class="wallpaper-section">
-		<div class="wallpaper-section" @mousedown="onMousedown($event)">
+		<div class="wallpaper-section" @mousedown="onMousedown($event)" :style="{background: 'url('+wall[index].imge+')'}">
 
 		</div>
 		<div class="mouse-action-section">
@@ -14,6 +14,14 @@
 		name: 'wallpaper',
 		data() {
 			return {
+				wall:[
+					{imge:''},
+					{imge: require('../assets/wall/wall-0.jpg')},
+					{imge: require('../assets/wall/wall-1.jpg')},
+					{imge: require('../assets/wall/wall-2.jpg')},
+					{imge: require('../assets/wall/wall-3.jpg')},
+					{imge: require('../assets/wall/wall-4.jpg')}
+				],
 				selection: {
 					startSelection: false,
 					startPosition: {},
@@ -23,10 +31,24 @@
 				}
 			}
 		},
+		computed:{
+			index(){
+				let i = this.$store.state.manager.wallIndex
+				return i <= 0 ? 1:( i > 5 ? 0:i)
+			}
+		},
 		methods: {
 			onMousedown(event) {
 				this.$store.commit('manager/selectIcon', '') //清空 图标选择
-				if (event) {
+				if (event.button==2) {
+					this.$store.commit('manager/setContextMenu', {"x":event.clientX,"y":event.clientY,'type':'wall'})
+				} else {
+					this.$store.commit('manager/cleanContextMenu')
+				}
+			},
+			onMouseup(event){
+				console.log("===>" + JSON.stringify(event))
+				if (event.button==2) {alert("222")
 					event.preventDefault()
 				}
 			}
@@ -40,8 +62,7 @@
 <style lang="less">
 	.wallpaper-section {
 		height: 100%;
-		background: url('../assets/wall.jpg');
 		background-size: cover;
-		/**background: #005599;**/
+		background: #42B983;
 	}
 </style>

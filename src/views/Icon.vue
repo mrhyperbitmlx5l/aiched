@@ -2,7 +2,6 @@
 	<div
 		class="icon-item"
 		:class="{selected:item.selected}"
-		@mousedown="onMousedown($event)"
 		@contextmenu="onContextmenu($event)"
 		:style="{
 			height: this.cell.height + 'px',
@@ -11,7 +10,7 @@
 			left: this.position.x + 'px'
 		}"
 	>
-		<div class="icon-body" @click="onClick()" @dblclick="onDblclick()" @dragstart="onDragstart()" @dragend="onDragend()" draggable="true">
+		<div class="icon-body" @click="onClick($event)" @dblclick="onDblclick()" @dragstart="onDragstart()" @dragend="onDragend()" draggable="true">
 			<div class="icon" :class="item.icon"></div>
 			<div class="text">{{ item.name }}</div>
 		</div>
@@ -44,12 +43,11 @@ export default {
 		//console.log('====>' + (this.order % this.grid.row));
 	},
 	methods: {
-		
 		onMousedown(event) {
 			console.log('onMousedown==========>' + event);
 		},
 		onContextmenu(event) {
-			console.log('onContextmenu==========>' + event);
+			this.$store.commit('manager/setContextMenu', {"x":event.clientX,"y":event.clientY,"type":"icon",'data':this.item.id})
 		},
 		onClick() {
 			this.$store.dispatch('manager/selectIcon',this.item.id)

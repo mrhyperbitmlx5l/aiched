@@ -4,6 +4,13 @@ export default {
 	namespaced: true,
 	state: {
 		startMenu:false,
+		wallIndex:0,
+		contextMenu:{
+			type:'wall',
+			x:0,
+			y:0,
+			data:{}
+		},
 		applications: [],
 		tasklist: [],
 	},
@@ -18,6 +25,7 @@ export default {
 				app.width = item.width > 0 ? item.width : 0
 				app.height = item.height > 0 ? item.height : 0
 				app.page = item.page
+				app.link = !utils.ObjectIsNull(item.link) ? false:item.link
 				app.selected = false
 				state.applications.push(app)
 			})
@@ -76,6 +84,15 @@ export default {
 				state.tasklist.push(app)
 			}
 		},
+		hiddenApplication(state, id){
+			state.tasklist.forEach(function(item) {
+				if (item.id == id) {
+					if(item.hidden == false){
+						item.hidden = true
+					} 
+				}
+			})
+		},
 		showOrhiddenApplication(state, id) {
 			state.tasklist.forEach(function(item) {
 				if (item.id == id) {
@@ -99,16 +116,33 @@ export default {
 		},
 		openStartMenu(state){
 			state.startMenu = !state.startMenu
+		},
+		setContextMenu(state,data){
+			console.log("=======>" +JSON.stringify(data))
+			state.contextMenu.x = data.x
+			state.contextMenu.y = data.y
+			state.contextMenu.type = data.type
+			state.contextMenu.data = data.data
+		},
+		cleanContextMenu(state){
+			state.contextMenu.x = -1
+			state.contextMenu.y = -1
+			state.contextMenu.type = ''
+			state.contextMenu.data = {}
+		},
+		randomWall(state){
+			state.wallIndex = utils.randomNum(1,5)
 		}
 	},
 	actions: {
 		focusTask({commit}, id){
-			commit('showOrhiddenApplication', id)
 			commit('focusApplication', id)
+			commit('selectIcon', '')
+			commit('cleanContextMenu')
 		},
 		showOrhidden({commit}, id){
 			commit('showOrhiddenApplication', id)
-			commit('focusApplication', '')
+			commit('focusApplication', id)
 		},
 		selectIcon({commit}, id) {
 			commit('selectIcon', id)
@@ -117,9 +151,19 @@ export default {
 			commit('openApplication', id)
 			commit('focusApplication', id)
 		},
+		minTask({commit}, id){
+			commit('hiddenApplication', id)
+			commit('focusApplication', id)
+		},
 		closeTask({commit}, id) {
 			commit('closeApplication', id)
 			commit('focusApplication', '')
+		},
+		lockScreen() {
+			console.log("[lockScreen]=========>")
+		},
+		nextWall({commit}){
+			commit('randomWall')
 		}
 	},
 }

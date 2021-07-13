@@ -77,14 +77,13 @@ export default {
 	},
 	methods: {
 		onFocus(id) {
-			this.$store.commit('manager/focusApplication', id)
-			this.$store.commit('manager/selectIcon', '')
+			this.$store.dispatch('manager/focusTask', id)
 		},
 		onClose(id) {
 			this.$store.dispatch('manager/closeTask', id);
 		},
 		onMin(id) {
-			this.$store.dispatch('manager/showOrhidden', id);
+			this.$store.dispatch('manager/minTask', id);
 		},
 		onMax() {
 			if (this.maximized && this.oldPosition) {

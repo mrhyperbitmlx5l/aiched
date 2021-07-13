@@ -72,7 +72,7 @@ export default {
 			this.$store.commit('manager/selectIcon', '')
 		},
 		onClick(id) {
-			this.$store.dispatch('manager/focusTask', id)
+			this.$store.dispatch('manager/showOrhidden', id)
 		},
 		onStart() {
 			this.$store.commit('manager/openStartMenu')
@@ -245,7 +245,8 @@ export default {
 	-webkit-box-shadow: 0 0 1px #fff;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	min-height: 400px;
+	max-height: 400px;
+	overflow-y: auto;
 	a {
 		border: solid 1px transparent;
 		display: block;

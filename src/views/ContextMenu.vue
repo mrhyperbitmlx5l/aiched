@@ -1,24 +1,21 @@
 <template>
 	<div
 		class="context-menu-section"
+		v-show="isShow"
 		:style="{
-			top: y + 'px',
-			left: x + 'px'
+			top: position.y + 'px',
+			left: position.x + 'px'
 		}"
 	>
 		<div class="context-menu">
 			<ul>
 				<li
-					v-for="item in data.list"
+					v-for="item in list"
 					:key="item.id"
 					:class="{ disabled: item.disabled, divide: item.type == 'divide', 'list-item': item.type !== 'divide' }"
 					@click="onClick(item)"
 				>
 					{{ item.text }}
-					<ul class="sublist">
-						<li class="list-item">100001</li>
-						<li class="list-item">100002</li>
-					</ul>
 				</li>
 			</ul>
 		</div>
@@ -29,44 +26,74 @@ export default {
 	name: 'ContextMenu',
 	data() {
 		return {
-			data: {
-				position:{
-					x:0,
-					y:0
-				},
-				list:[
+			icon: [
 				{
 					id: '1',
-					text: '6666666',
-					type: 'copy',
+					text: '打开',
+					type: 'default',
 					disabled: false,
-					callback: function() {}
+					action: 'openTask'
 				},
 				{
 					type: 'divide'
 				},
 				{
 					id: '2',
-					text: '222',
-					type: 'copy',
+					text: '帮助',
+					type: 'default',
 					disabled: false,
-					callback: function() {}
+					action: 'help'
+				}
+			],
+			wall: [
+				{
+					id: '1',
+					text: '帮助',
+					type: 'default',
+					disabled: false,
+					action: 'help'
+				},
+				{
+					type: 'divide'
+				},
+				{
+					id: '2',
+					text: '锁屏',
+					type: 'default',
+					disabled: false,
+					action: 'lockScreen'
 				},
 				{
 					id: '3',
-					text: '222',
-					type: 'copy',
+					text: '下一个桌面背景',
+					type: 'default',
 					disabled: false,
-					callback: function() {}
+					action: 'nextWall'
 				}
 			]
+		};
+	},
+	computed: {
+		list() {
+			if (this.$store.state.manager.contextMenu.type==='wall') {
+				return this.wall;
+			} else {
+				return this.icon;
 			}
+		},
+		position() {
+			return this.$store.state.manager.contextMenu;
+		},
+		isShow() {
+			return this.position.x > 0 && this.position.y > 0;
 		}
 	},
-	beforeCreate() {},
-	components: {},
 	methods: {
-		onClick() {}
+		onClick(item) {
+			let date = this.$store.state.manager.contextMenu.data
+			this.$store.dispatch('manager/' + item.action, date);
+			this.$store.commit('manager/cleanContextMenu');
+		}
 	}
 };
 </script>
@@ -76,14 +103,14 @@ export default {
 	position: absolute;
 }
 .context-menu {
-	margin:0;padding:0;
-	border-radius: 4px;
+	margin: 0;
+	padding: 0;
 	ul {
 		background: rgba(255, 255, 255, 0.8);
 		width: 100%;
 		padding: 5px 0;
 		list-style: none;
-		
+		border-radius: 5px;
 		.list-item {
 			cursor: default;
 			color: #333;
@@ -91,12 +118,10 @@ export default {
 			&:hover {
 				background: #4b8de4;
 				color: #fff;
-				.sublist {display: block;}
 			}
 			&.disabled {
 				color: #999;
 			}
-			
 		}
 		.divide {
 			border-top: 1px solid #ccc;
@@ -104,16 +129,4 @@ export default {
 		}
 	}
 }
-.context-menu li>.sublist {
-				position: absolute;
-		
-				/*作用于 li的直接子元素ul */
-				left: 150px; /*一级目录本身宽度100px, 所以二级目录显示的时候要向右偏移100px, 为什么使用的是left呢? 自己学习css吧*/
-				/*二级目录默认是不显示的*/
-				list-style: none;
-				
-				.list-item {
-					padding: 0 10px;
-				}
-			}
 </style>
