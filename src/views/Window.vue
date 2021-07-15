@@ -73,7 +73,7 @@ export default {
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
 		//console.log("====>" + this.setting.page)
-		this.subComponent =() => import('../components/' + this.setting.page + '.vue');
+		this.subComponent =() => import('../applications/' + this.setting.page + '.vue');
 	},
 	methods: {
 		onFocus(id) {

@@ -8,14 +8,14 @@ const register = {
 	/**任务栏高度  see global.less !!!**/
 	"application": [{
 			"id": "0001",
-			"name": "第一",
+			"name": "HelloWorld",
 			"page": "HelloWorld",
 			"icon": "firefox",
 			"link": true,
 		},
 		{
 			"id": "0002",
-			"name": "简易计算器",
+			"name": "计算器",
 			"page": "calculator",
 			"link": true,
 			"width": 400,
@@ -24,65 +24,77 @@ const register = {
 		},
 		{
 			"id": "0003",
-			"name": "第三",
+			"name": "Ant Design Vue 测试1",
+			"page": "demo",
 			"icon": "setting",
 			"link": true,
 		},
 		{
 			"id": "0004",
-			"name": "第4",
+			"name": "Ant Design Vue 测试2",
+			"page": "demo2",
 			"icon": "call",
 			"link": true,
 		},
 		{
 			"id": "0005",
 			"name": "第5",
+			"page": "HelloWorld",
 			"icon": "people",
 		},
 		{
 			"id": "0006",
 			"name": "第6",
+			"page": "HelloWorld",
 			"icon": "doller",
 		},
 		{
 			"id": "0007",
 			"name": "第7",
+			"page": "HelloWorld",
 			"icon": "chrome",
 		},
 		{
 			"id": "0008",
 			"name": "第8",
+			"page": "HelloWorld",
 			"icon": "safari",
 		},
 		{
 			"id": "0009",
 			"name": "第9",
+			"page": "HelloWorld",
 			"icon": "chrome",
 			"link": true
 		},
 		{
 			"id": "0010",
 			"name": "第10",
+			"page": "HelloWorld",
 			"icon": "chrome",
 		},
 		{
 			"id": "0011",
 			"name": "第10",
+			"page": "HelloWorld",
 			"icon": "chrome",
 		},
 		{
 			"id": "0012",
 			"name": "第10",
+			"page": "HelloWorld",
 			"icon": "chrome",
 		},
 		{
 			"id": "0013",
 			"name": "第10",
+			"page": "HelloWorld",
 			"icon": "chrome",
 		},
 		{
 			"id": "0014",
 			"name": "第10",
+			"page": "HelloWorld",
 			"icon": "chrome",
 		}
 	]
