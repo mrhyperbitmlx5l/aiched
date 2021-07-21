@@ -1,7 +1,10 @@
 # dogstar
 
-ÌìÀÇĞÇ »ùÓÚ VUE ¿ò¼ÜµÄÄ£ÄâWindows ×ÀÃæĞ§¹û£¬ºóÌ¨¹ÜÀíUI¡£
-[Ô¤ÀÀ](https://ispace-code.gitee.io/dogstar-ui)
+å¤©ç‹¼æ˜Ÿ åŸºäº VUE æ¡†æ¶çš„æ¨¡æ‹ŸWindows æ¡Œé¢æ•ˆæœï¼Œåå°ç®¡ç†UIã€‚
+[é¢„è§ˆ](https://ispace-code.gitee.io/dogstar-ui)
+
+[æ•ˆæœå›¾](https://images.gitee.com/uploads/images/2020/0709/201743_c8993f86_15710.png "1.png")
+[æ•ˆæœå›¾](https://images.gitee.com/uploads/images/2020/0709/201734_b9a680d4_15710.png "2.png")
 ## Project setup
 ```
 npm install
