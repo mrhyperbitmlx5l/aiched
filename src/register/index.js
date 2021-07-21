@@ -39,7 +39,7 @@ const register = {
 		{
 			"id": "0005",
 			"name": "第5",
-			"page": "HelloWorld",
+			"page": "Home",
 			"icon": "people",
 		},
 		{

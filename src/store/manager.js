@@ -3,13 +3,13 @@ import * as utils from '@/utils/index'
 export default {
 	namespaced: true,
 	state: {
-		startMenu:false,
-		wallIndex:0,
-		contextMenu:{
-			type:'wall',
-			x:0,
-			y:0,
-			data:{}
+		startMenu: false,
+		wallIndex: 0,
+		contextMenu: {
+			type: 'wall',
+			x: 0,
+			y: 0,
+			data: {}
 		},
 		applications: [],
 		tasklist: [],
@@ -25,7 +25,7 @@ export default {
 				app.width = item.width > 0 ? item.width : 0
 				app.height = item.height > 0 ? item.height : 0
 				app.page = item.page
-				app.link = !utils.ObjectIsNull(item.link) ? false:item.link
+				app.link = !utils.ObjectIsNull(item.link) ? false : item.link
 				app.selected = false
 				state.applications.push(app)
 			})
@@ -38,7 +38,7 @@ export default {
 					item.selected = false
 				}
 			})
-			if(state.startMenu){
+			if (state.startMenu) {
 				state.startMenu = false
 			}
 		},
@@ -52,25 +52,25 @@ export default {
 		focusApplication(state, id) {
 			let flag = false
 			let last = -1
-			state.tasklist.forEach(function(item,index) {
+			state.tasklist.forEach(function(item, index) {
 				if ((!utils.StringIsNull(id) && item.id == id && !item.hidden)) {
 					item.focus = true
 					flag = true
 				} else {
 					item.focus = false
 				}
-				if(!item.hidden){
+				if (!item.hidden) {
 					last = index
-				}				
+				}
 			})
 			//console.log(id +"  item2========>" + last + "===>" + JSON.stringify(state.tasklist))
-			if(!flag && last >= 0 && state.tasklist.length >= 1) {
-				state.tasklist[last].focus = true		
-			} 
+			if (!flag && last >= 0 && state.tasklist.length >= 1) {
+				state.tasklist[last].focus = true
+			}
 		},
 		openApplication(state, id) {
 			let t = state.tasklist.filter(t => t.id == id)
-			if(utils.ObjectIsNull(t) && (state.tasklist.length <= REGISTER.MAXTASK)){
+			if (utils.ObjectIsNull(t) && (state.tasklist.length <= REGISTER.MAXTASK)) {
 				let object = state.applications.filter(t => t.id == id)[0]
 				let app = {}
 				app.id = object.id
@@ -78,25 +78,25 @@ export default {
 				app.height = object.height
 				app.title = object.name
 				app.icon = object.icon
-				app.page = utils.ObjectIsNull(object.page) ? "":object.page
+				app.page = utils.ObjectIsNull(object.page) ? "" : object.page
 				app.hidden = false
 				app.focus = true
 				state.tasklist.push(app)
 			}
 		},
-		hiddenApplication(state, id){
+		hiddenApplication(state, id) {
 			state.tasklist.forEach(function(item) {
 				if (item.id == id) {
-					if(item.hidden == false){
+					if (item.hidden == false) {
 						item.hidden = true
-					} 
+					}
 				}
 			})
 		},
 		showOrhiddenApplication(state, id) {
 			state.tasklist.forEach(function(item) {
 				if (item.id == id) {
-					if(item.hidden == false && item.focus){
+					if (item.hidden == false && item.focus) {
 						item.hidden = true
 					} else {
 						item.hidden = false
@@ -114,55 +114,69 @@ export default {
 			//console.log("state.tasklist2========>" + JSON.stringify(state.tasklist))
 			//		
 		},
-		openStartMenu(state){
+		openStartMenu(state) {
 			state.startMenu = !state.startMenu
 		},
-		setContextMenu(state,data){
-			console.log("=======>" +JSON.stringify(data))
+		setContextMenu(state, data) {
+			console.log("=======>" + JSON.stringify(data))
 			state.contextMenu.x = data.x
 			state.contextMenu.y = data.y
 			state.contextMenu.type = data.type
 			state.contextMenu.data = data.data
 		},
-		cleanContextMenu(state){
+		cleanContextMenu(state) {
 			state.contextMenu.x = -1
 			state.contextMenu.y = -1
 			state.contextMenu.type = ''
 			state.contextMenu.data = {}
 		},
-		randomWall(state){
-			state.wallIndex = utils.randomNum(1,5)
+		randomWall(state) {
+			state.wallIndex = utils.randomNum(1, 5)
 		}
 	},
 	actions: {
-		focusTask({commit}, id){
+		focusTask({
+			commit
+		}, id) {
 			commit('focusApplication', id)
 			commit('selectIcon', '')
 			commit('cleanContextMenu')
 		},
-		showOrhidden({commit}, id){
+		showOrhidden({
+			commit
+		}, id) {
 			commit('showOrhiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		selectIcon({commit}, id) {
+		selectIcon({
+			commit
+		}, id) {
 			commit('selectIcon', id)
 		},
-		openTask({commit}, id) {
+		openTask({
+			commit
+		}, id) {
 			commit('openApplication', id)
 			commit('focusApplication', id)
 		},
-		minTask({commit}, id){
+		minTask({
+			commit
+		}, id) {
 			commit('hiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		closeTask({commit}, id) {
+		closeTask({
+			commit
+		}, id) {
 			commit('closeApplication', id)
 			commit('focusApplication', '')
 		},
 		lockScreen() {
 			console.log("[lockScreen]=========>")
 		},
-		nextWall({commit}){
+		nextWall({
+			commit
+		}) {
 			commit('randomWall')
 		}
 	},
