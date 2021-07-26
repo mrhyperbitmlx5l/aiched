@@ -4,7 +4,7 @@
 [预览](https://ispace-code.gitee.io/dogstar-ui)
 
 欢迎大家加入共同建设。
-
+![设置壁纸](https://images.gitee.com/uploads/images/2020/0716/143216_7117f6e0_15710.png "11.png")
 ![效果图](https://images.gitee.com/uploads/images/2020/0709/201743_c8993f86_15710.png "1.png")
 ![效果图](https://images.gitee.com/uploads/images/2020/0709/201734_b9a680d4_15710.png "2.png")
 ## Project setup
