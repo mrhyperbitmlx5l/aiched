@@ -6,5 +6,5 @@ module.exports = {
     extract: false
   },
 
-  publicPath: ''
+  publicPath: '/dogstar-ui/'
 }
