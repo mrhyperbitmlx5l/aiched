@@ -45,12 +45,6 @@
 				} else {
 					this.$store.commit('manager/cleanContextMenu')
 				}
-			},
-			onMouseup(event){
-				console.log("===>" + JSON.stringify(event))
-				if (event.button==2) {alert("222")
-					event.preventDefault()
-				}
 			}
 		},
 		ready: function() {

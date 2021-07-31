@@ -7,11 +7,17 @@ const register = {
 	"taskHeight": 40,
 	/**任务栏高度  see global.less !!!**/
 	"application": [{
-			"id": "0001",
-			"name": "HelloWorld",
-			"page": "HelloWorld",
-			"icon": "firefox",
-			"link": true,
+			"id": "0001",//id
+			"name": "HelloWorld",//title
+			"page": "HelloWorld",//组件
+			"icon": "firefox",//图标
+			"type": "folder",
+			"link": true,//是否显示桌面图标
+			"sublist":[
+				{"id":"0001","name":"1111","icon":"firefox","type":"application","link":true},
+				{"id":"000102","name":"2222","icon":"firefox"},
+				{"id":"000103","name":"3333","icon":"firefox"}
+			]
 		},
 		{
 			"id": "0002",
@@ -28,6 +34,8 @@ const register = {
 			"page": "demo",
 			"icon": "setting",
 			"link": true,
+			"width": 800,
+			"height": 400,
 		},
 		{
 			"id": "0004",
@@ -52,7 +60,7 @@ const register = {
 			"id": "0007",
 			"name": "第7",
 			"page": "HelloWorld",
-			"icon": "chrome",
+			"icon": "folder",
 		},
 		{
 			"id": "0008",

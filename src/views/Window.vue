@@ -15,7 +15,7 @@
 				<span class="button close" @mousedown="onClose(setting.id)"></span>
 			</div>
 		</header>
-		<div class="window-body">
+		<div class="window-body" :ref="'window_' + setting.id">
 			<keep-alive>
 				<component v-bind:is="subComponent" :window.sync="window" ></component>
 			</keep-alive>
@@ -62,7 +62,7 @@ export default {
 	},
 	computed: {
 		window(){
-			return {"width":this.width,"height":this.height}
+			return {"width":this.width,"height":this.height,"id":this.setting.id}
 		}
 	},
 	created() {

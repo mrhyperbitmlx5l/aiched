@@ -16,19 +16,27 @@
 				<div class="dog-menu-list">
 					<ul>
 						<li>列表</li>
-						<li v-for="item in applications" :key="item.id">
-							<a href="#" @click="openApplication(item.id)"><div class="icon" :class="item.icon"></div>{{item.name}}</a>
+						<li v-for="item in menulist" :key="item.id">
+							<div class="menu-item" @click="onClickItem(item)">
+								<i class="icon" :class="item.icon"></i>
+								<span>{{ item.name }}</span>
+							</div>
+							<ul v-if="item.sublist" v-show="!item.subhidden">
+								<li v-for="sub in item.sublist" :key="sub.id">
+									<div class="menu-item" style="margin-left: 20px ;text-align:left" @click="onClickItem(sub)">
+										<i class="icon" :class="sub.icon"></i>
+										<span>{{ sub.name }}</span>
+									</div>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</div>
 				<div class="dog-menu-links">
 					<ul>
-						<li>
-							<a href="#"><span>Documentsspan></span></a>
-						</li>
-						<li>
-							<a href="#"><span>Documentsspan></span></a>
-						</li>
+						<!-- <li v-for="item in commonlyUsed" :key="item.id">
+							<a href="#"><span>{{item.title}}</span></a>
+						</li> -->
 					</ul>
 				</div>
 			</div>
@@ -36,15 +44,35 @@
 	</div>
 </template>
 <script>
+import REGISTER from '../register/index.js';
 export default {
 	name: 'Taskbar',
 	data() {
-		return {};
+		return {
+			menulist: []
+		};
+	},
+	created() {
+		REGISTER.application.forEach(item => {
+			let object = {};
+			if (item.sublist) {
+				object.sublist = []
+				item.sublist.forEach(o => {
+					let sub = {};
+					sub.id = o.id;
+					sub.name = o.name;
+					sub.icon = o.icon;
+					object.sublist.push(sub);
+				});
+				object.subhidden = true;
+			}
+			object.id = item.id;
+			object.name = item.name;
+			object.icon = item.icon;
+			this.menulist.push(object);
+		});
 	},
 	computed: {
-		applications() {
-			return this.$store.state.manager.applications
-		},
 		tasklist() {
 			let tasks = [];
 			this.$store.state.manager.tasklist.forEach(task => {
@@ -67,15 +95,20 @@ export default {
 		}
 	},
 	methods: {
-		openApplication(id){
-			this.$store.dispatch('manager/openTask',id)
-			this.$store.commit('manager/selectIcon', '')
+		onClickItem(object) {
+			//console.log("object====>" + JSON.stringify(object))
+			if (object.sublist) {
+				object.subhidden = !object.subhidden
+			} else {
+				this.$store.dispatch('manager/openTask', object.id);
+				this.$store.commit('manager/selectIcon', '');
+			}
 		},
 		onClick(id) {
-			this.$store.dispatch('manager/showOrhidden', id)
+			this.$store.dispatch('manager/showOrhidden', id);
 		},
 		onStart() {
-			this.$store.commit('manager/openStartMenu')
+			this.$store.commit('manager/openStartMenu');
 		}
 	}
 };
@@ -226,16 +259,17 @@ export default {
 	ul {
 		list-style: none;
 	}
-	.icon{
+	.icon {
 		display: inline-block;
 		height: 18px;
 		width: 18px;
 		background-size: cover;
+		margin-right: 5px;
 	}
 }
 
 .dog-menu-list {
-	width: 50%;
+	width: 60%;
 	float: left;
 	background: #fff;
 	border: solid 1px #365167;
@@ -247,7 +281,7 @@ export default {
 	-webkit-border-radius: 3px;
 	max-height: 400px;
 	overflow-y: auto;
-	a {
+	.menu-item {
 		border: solid 1px transparent;
 		display: block;
 		padding: 3px;
@@ -256,7 +290,7 @@ export default {
 		text-align: left;
 		text-decoration: none;
 	}
-	a:hover {
+	.menu-item:hover {
 		border: solid 1px #7da2ce;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;

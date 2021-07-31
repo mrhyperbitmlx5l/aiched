@@ -13,6 +13,7 @@ export default {
 		},
 		applications: [],
 		tasklist: [],
+		//commonlyUsed: []
 	},
 	mutations: {
 		init(state) {
@@ -29,6 +30,7 @@ export default {
 				app.selected = false
 				state.applications.push(app)
 			})
+			//state.commonlyUsed = JSON.parse(utils.getLocalstorage('commonlyUsed','[]'))
 		},
 		selectIcon(state, id) {
 			state.applications.forEach(item => {
@@ -118,7 +120,6 @@ export default {
 			state.startMenu = !state.startMenu
 		},
 		setContextMenu(state, data) {
-			console.log("=======>" + JSON.stringify(data))
 			state.contextMenu.x = data.x
 			state.contextMenu.y = data.y
 			state.contextMenu.type = data.type
@@ -135,48 +136,34 @@ export default {
 		}
 	},
 	actions: {
-		focusTask({
-			commit
-		}, id) {
+		focusTask({	commit }, id) {
 			commit('focusApplication', id)
 			commit('selectIcon', '')
 			commit('cleanContextMenu')
 		},
-		showOrhidden({
-			commit
-		}, id) {
+		showOrhidden({commit}, id) {
 			commit('showOrhiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		selectIcon({
-			commit
-		}, id) {
+		selectIcon({commit}, id) {
 			commit('selectIcon', id)
 		},
-		openTask({
-			commit
-		}, id) {
+		openTask({commit}, id) {
 			commit('openApplication', id)
 			commit('focusApplication', id)
 		},
-		minTask({
-			commit
-		}, id) {
+		minTask({commit}, id) {
 			commit('hiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		closeTask({
-			commit
-		}, id) {
+		closeTask({commit}, id) {
 			commit('closeApplication', id)
 			commit('focusApplication', '')
 		},
 		lockScreen() {
 			console.log("[lockScreen]=========>")
 		},
-		nextWall({
-			commit
-		}) {
+		nextWall({commit}) {
 			commit('randomWall')
 		}
 	},
