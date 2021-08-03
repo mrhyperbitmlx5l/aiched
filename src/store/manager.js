@@ -20,15 +20,30 @@ export default {
 			//console.log("=======>" + JSON.stringify(REGISTER))
 			REGISTER.application.forEach(item => {
 				let app = {}
-				app.id = item.id
-				app.name = item.name
-				app.icon = item.icon
-				app.width = item.width > 0 ? item.width : 0
-				app.height = item.height > 0 ? item.height : 0
-				app.page = item.page
-				app.link = !utils.ObjectIsNull(item.link) ? false : item.link
-				app.selected = false
-				state.applications.push(app)
+				if(item.sublist||item.type==='folder'){
+					item.sublist.forEach(subitem => {
+						app = {}
+						app.id = subitem.id
+						app.name = subitem.name
+						app.icon = subitem.icon
+						app.width = subitem.width > 0 ? subitem.width : 0
+						app.height = subitem.height > 0 ? subitem.height : 0
+						app.page = subitem.page
+						app.link = !utils.ObjectIsNull(subitem.link) ? false : subitem.link
+						app.selected = false
+						state.applications.push(app)
+					})
+				} else {
+					app.id = item.id
+					app.name = item.name
+					app.icon = item.icon
+					app.width = item.width > 0 ? item.width : 0
+					app.height = item.height > 0 ? item.height : 0
+					app.page = item.page
+					app.link = !utils.ObjectIsNull(item.link) ? false : item.link
+					app.selected = false
+					state.applications.push(app)
+				}
 			})
 			//state.commonlyUsed = JSON.parse(utils.getLocalstorage('commonlyUsed','[]'))
 		},
@@ -71,10 +86,11 @@ export default {
 			}
 		},
 		openApplication(state, id) {
-			let t = state.tasklist.filter(t => t.id == id)
-			if (utils.ObjectIsNull(t) && (state.tasklist.length <= REGISTER.MAXTASK)) {
+			let temp = state.tasklist.filter(t => t.id == id)
+			if (utils.ObjectIsNull(temp) && (state.tasklist.length <= REGISTER.MAXTASK)) {
 				let object = state.applications.filter(t => t.id == id)[0]
 				let app = {}
+				//console.log("object===>" + JSON.stringify(state.applications) + "====>" + id)
 				app.id = object.id
 				app.width = object.width
 				app.height = object.height

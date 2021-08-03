@@ -186,7 +186,6 @@ export default {
 
 .window {
 	position: absolute;
-	background: #fff;
 	border-radius: 5px;
 	overflow: hidden;
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
@@ -194,13 +193,18 @@ export default {
 	&.animating {
 		transition: all ease 0.5s;
 	}
-
+	.window-body{
+		background: #F9F9F9;
+		height: 100%;
+	}
+	
 	.window-title {
 		position: relative;
-		background: #f2f6ff;
+		background:rgba(255,255,200,0.8);
 		text-align: center;
 		line-height: @titleHeight;
 		height: @titleHeight;
+		
 		cursor: default;
 		color: #aaa;
 		.Filter(saturate(0.5));
@@ -218,7 +222,8 @@ export default {
 	&.focus {
 		box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
 		.window-title {
-			background: #f5f8ff;
+			//background: #f5f8ff;
+			background:rgba(255,255,255,0.4);
 			color: #333;
 			.Filter(saturate(1.2));
 		}

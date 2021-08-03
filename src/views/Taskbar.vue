@@ -56,7 +56,7 @@ export default {
 		REGISTER.application.forEach(item => {
 			let object = {};
 			if (item.sublist) {
-				object.sublist = []
+				object.sublist = [];
 				item.sublist.forEach(o => {
 					let sub = {};
 					sub.id = o.id;
@@ -96,9 +96,9 @@ export default {
 	},
 	methods: {
 		onClickItem(object) {
-			//console.log("object====>" + JSON.stringify(object))
+			//console.log('object====>' + JSON.stringify(object));
 			if (object.sublist) {
-				object.subhidden = !object.subhidden
+				object.subhidden = !object.subhidden;
 			} else {
 				this.$store.dispatch('manager/openTask', object.id);
 				this.$store.commit('manager/selectIcon', '');
@@ -126,7 +126,7 @@ export default {
 .taskbar-section {
 	width: 100%;
 	height: @taskHeight;
-	background: @taskbackground; // hsla(0,100%,80%,0.5);
+	background: @taskbackground;
 	position: absolute;
 	//-webkit-filter: blur(0.5px); /* Chrome, Opera */
 	bottom: 0;
@@ -135,18 +135,18 @@ export default {
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
-.task-list {
+.task-list {	
 	width: 92%;
 	float: right;
 	overflow: hidden;
 	border-left: 2px double #333333;
 	height: @taskHeight;
 	cursor: default;
-
 	.task-item {
 		float: left;
 		height: @taskHeight;
-		min-width: 50px;
+		max-width: 120px;
+		min-width: 20px;
 		padding: 0 20px 0 15px;
 		text-align: center;
 		line-height: @taskHeight;

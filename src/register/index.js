@@ -10,11 +10,11 @@ const register = {
 			"id": "0001",//id
 			"name": "HelloWorld",//title
 			"page": "HelloWorld",//组件
-			"icon": "firefox",//图标
+			"icon": "folder",//图标
 			"type": "folder",
-			"link": true,//是否显示桌面图标
+			"link": false,//是否显示桌面图标
 			"sublist":[
-				{"id":"0001","name":"1111","icon":"firefox","type":"application","link":true},
+				{"id":"000101","name":"sub001","icon":"firefox","type":"application","link":true},
 				{"id":"000102","name":"2222","icon":"firefox"},
 				{"id":"000103","name":"3333","icon":"firefox"}
 			]
