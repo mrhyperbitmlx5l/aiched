@@ -3,25 +3,15 @@
     <a-button type="primary" @click="showModal">
       Open Modal with customized footer
     </a-button>
-    <a-modal v-model="visible"  on-ok="handleOk">
-      <template slot="title">
-        <a-button key="back" @click="handleCancel">
-          Return
-        </a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">
-          Submit
-        </a-button>
-      </template>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-    </a-modal>
+    <Dialog v-model="visible" :setting="{'icon':'call','title':'模态对话框','width':'500','height':'400'}"><span>模态对话框</span></Dialog>
   </div>
 </template>
 <script>
+	import Dialog from '@/views/DialogModal'
 export default {
+	components:{
+		Dialog
+	},
   data() {
     return {
       loading: false,
