@@ -1,9 +1,13 @@
 <template>
 	<div class="dialog-container">
-		<header class="dialog-title" ></header>
-		<div class="dialog-body"></div>
-		<div class="dialog-footer"></div>
-		<div class="modal-mask"></div>
+		<div class="folder">
+			<div class="folder-apps" tabindex="0">
+				<div class="app">
+					<div class="app-icon"></div>
+					<div class="app-name">App</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 

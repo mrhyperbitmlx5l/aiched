@@ -11,7 +11,7 @@
 				{{ task.title }}
 			</div>
 		</div>
-		<transition name="zoom" enter-active-class="animate zoomIn" leave-active-class="animated zoomOut">
+		<transition enter-active-class="animate bounceInLeft" leave-active-class="animated bounceOutLeft">
 			<div class="dog-menu" v-show="showmenu">
 				<div class="dog-menu-list">
 					<ul>
@@ -34,9 +34,8 @@
 				</div>
 				<div class="dog-menu-links">
 					<ul>
-						<!-- <li v-for="item in commonlyUsed" :key="item.id">
-							<a href="#"><span>{{item.title}}</span></a>
-						</li> -->
+						<li><a href="#" @click="onLink('0000')"><span>帮助</span></a></li>
+						<li><a href="#" @click="onLink('0001')"><span>壁纸</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -104,6 +103,10 @@ export default {
 				this.$store.commit('manager/selectIcon', '');
 			}
 		},
+		onLink(id){
+			this.$store.dispatch('manager/openTask', id);
+			this.$store.commit('manager/selectIcon', '');
+		},
 		onClick(id) {
 			this.$store.dispatch('manager/showOrhidden', id);
 		},
@@ -128,7 +131,6 @@ export default {
 	height: @taskHeight;
 	background: @taskbackground;
 	position: absolute;
-	//-webkit-filter: blur(0.5px); /* Chrome, Opera */
 	bottom: 0;
 	top: auto !important;
 	left: 0;
@@ -156,14 +158,14 @@ export default {
 		/*color:#fff;*/
 		/*background:#ccc;*/
 		color: #aaa;
-		.Filter(saturate(0.2));
+		//.Filter(saturate(0.2));
 
 		&.actived {
 			/*background:#4b8de4;*/
 			/*color:#fff;*/
 			color: #111;
 			background: #fff;
-			.Filter(saturate(1));
+			//.Filter(saturate(1));
 		}
 
 		.icon {
@@ -269,7 +271,7 @@ export default {
 }
 
 .dog-menu-list {
-	width: 60%;
+	width: 50%;
 	float: left;
 	background: #fff;
 	border: solid 1px #365167;
@@ -309,9 +311,9 @@ export default {
 }
 
 .dog-menu-links {
-	width: 40%;
-	float: left;
-	margin: 7px;
+	width: 45%;
+	float:right;
+	margin: 5px;
 	li.icon {
 		text-align: center;
 	}

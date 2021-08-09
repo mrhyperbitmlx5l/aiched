@@ -3,7 +3,7 @@
     <a-button type="primary" @click="showModal">
       Open Modal with customized footer
     </a-button>
-    <Dialog v-model="visible" :setting="{'icon':'call','title':'模态对话框','width':'500','height':'400'}"><span>模态对话框</span></Dialog>
+    <Dialog v-model="visible" :setting="{'icon':'call','title':'模态对话框','width':'500','height':'400'}" @onOk="onOk"><span>模态对话框</span></Dialog>
   </div>
 </template>
 <script>
@@ -32,6 +32,9 @@ export default {
     handleCancel() {
       this.visible = false;
     },
+	onOk(){
+		alert("close")
+	}
   },
 };
 </script>

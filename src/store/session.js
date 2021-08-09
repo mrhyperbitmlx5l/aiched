@@ -1,3 +1,5 @@
+import * as utils from '@/utils/index'
+import router from '@/router/index'
 export default {
 	namespaced: true,
 	state: {
@@ -14,6 +16,13 @@ export default {
 		}
 	},
 	actions: {
-
+		lockScreen({commit}) {
+			console.log("[lockScreen]=========>")
+			utils.setToken("")
+			commit('setToken',"")
+			router.push('/login').catch(err => {
+					err;
+			});
+		}
 	}
 }

@@ -1,7 +1,7 @@
 <template>
 		<div
 			class="window animated"
-			:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized ,  zoomIn:this.animatedId ,zoomOut:this.animatedOut}"
+			:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized ,  bounceIn:this.animatedIn ,zoomOut:this.animatedOut}"
 			v-show="!setting.hidden"
 			:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px' }"
 			@mousedown="onFocus(setting.id)"
@@ -19,7 +19,7 @@
 				<keep-alive><component v-bind:is="subComponent" :window.sync="window"></component></keep-alive>
 			</div>
 			<div class="resize-overlay" v-show="overlayShow"></div>
-			<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown="onResize(value)"></div>
+			<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown.self="onResize(value)"></div>
 		</div>
 </template>
 
@@ -39,7 +39,7 @@ export default {
 			height: 400,
 			maximized: false,
 			animating: false,
-			animatedId:false,
+			animatedIn:false,
 			animatedOut:false,
 			resizable: true,
 			position: {
@@ -63,12 +63,18 @@ export default {
 		this.height = this.setting.height > 0 ? this.setting.height : w / 3;
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
-		this.animatedId = true
-		//console.log("====>" + this.setting.page)
+		this.animatedIn = true
+		//console.log("created====>")
 		this.subComponent = () => import('../applications/' + this.setting.page + '.vue');
 	},
-	updated() {
-		this.animatedId = false
+	mounted() {
+		//console.log("mounted====>")
+		this.animatedIn = true
+		clearTimeout(this.timer);
+		this.timer = setTimeout(() => {
+			clearTimeout(this.timer);
+			this.animatedIn = false
+		},400)
 	},
 	methods: {
 		onFocus(id) {
@@ -200,15 +206,13 @@ export default {
 
 	.window-title {
 		position: relative;
-		background: rgba(255, 255, 200, 0.8);
+		background: rgba(255, 255, 230, 0.8);
 		text-align: center;
 		line-height: @titleHeight;
 		height: @titleHeight;
 
 		cursor: default;
 		color: #aaa;
-		.Filter(saturate(0.5));
-
 		.icon {
 			position: absolute;
 			top: 4px;
@@ -225,7 +229,6 @@ export default {
 			//background: #f5f8ff;
 			background: rgba(255, 255, 255, 0.4);
 			color: #333;
-			.Filter(saturate(1.2));
 		}
 	}
 
@@ -383,7 +386,7 @@ export default {
 		height: @reactionWidth;
 		cursor: n-resize;
 	}
-	.angle-bottom-right {
+	.angle-bottom-right{
 		right: 0;
 		bottom: 0;
 		width: @reactionWidth*2;

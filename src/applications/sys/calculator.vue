@@ -1,5 +1,5 @@
 <style lang="less" rel="stylesheet/less" scoped>
-@import '../global';
+@import '../../global';
 .container {
 	color: #333;
 }

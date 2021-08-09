@@ -1,7 +1,9 @@
 <template>
 	<div id="monitor">
 		<transition name="zoom" enter-active-class="animated slideInLeft" leave-active-class="animated zoomOut">
+			<keep-alive>
 			<router-view />
+			</keep-alive>
 		</transition>
 	</div>
 </template>

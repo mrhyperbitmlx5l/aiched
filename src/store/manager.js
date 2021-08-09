@@ -176,11 +176,16 @@ export default {
 			commit('closeApplication', id)
 			commit('focusApplication', '')
 		},
-		lockScreen() {
-			console.log("[lockScreen]=========>")
-		},
 		nextWall({commit}) {
 			commit('randomWall')
+		},
+		help({commit}) {
+			commit('openApplication', '0000')
+			commit('focusApplication', '0000')
+		},
+		display({commit}) {
+			commit('openApplication', '0001')
+			commit('focusApplication', '0001')
 		}
 	},
 }

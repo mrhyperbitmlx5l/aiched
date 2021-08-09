@@ -1,8 +1,8 @@
 <template>
-	<div class="dialog-container" v-show="show">
-		<div class="modal-mask"></div>
-		<transition enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
-			<div class="dialog-modal" v-show="show" :style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px',  }">
+	<div class="dialog-container" >
+		<div class="modal-mask" :style="{width:wh.width,height:wh.height}" v-show="visualStatus"></div>
+		<transition enter-active-class="animated zoomIn" leave-active-class="animated zoomOut" @after-leave="onAfter" @after-appear="onBefore">
+			<div class="dialog-modal" v-show="visualStatus" :style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px',  }">
 				<header class="dialog-title">
 					<div class="icon" :class="setting.icon"></div>
 					{{ setting.title }}
@@ -10,7 +10,10 @@
 				</header>
 				<div class="dialog-body"><slot></slot></div>
 				<div class="dialog-footer">
-					1111111111
+					<div>
+						<button type="button" class="dogstar-btn" @click="onClose"><span>按 钮</span></button>
+						<button type="button" class="dogstar-btn dogstar-btn-primary" @click="onOk"><span>按 钮</span></button>
+					</div>
 				</div>
 			</div>
 		</transition>
@@ -21,16 +24,18 @@
 export default {
 	name: 'DialogModal',
 	model: {
-		prop: 'isopen',
-		event: 'onOpen'
+		prop: 'visualStatus',
+		event: 'onVisualStatus'
 	},
 	props: {
-		isopen: Boolean,
+		visualStatus: Boolean,
 		setting: Object
 	},
 	computed: {
-		show() {
-			return this.isopen;
+		wh(){
+			let w = document.body.clientWidth;
+			let h = document.body.clientHeight;
+			return {'width':w,'height':h}
 		}
 	},
 	data() {
@@ -52,8 +57,19 @@ export default {
 		this.position.y = (h - this.height) / 2;
 	},
 	methods: {
-		onClose() {
-			this.$emit('onOpen', false);
+		onClose() {			
+			this.$emit('onVisualStatus', false);
+			this.$emit("onClose");
+		},
+		onOk(){
+			this.$emit('onVisualStatus', false);
+			this.$emit("onOk");
+		},
+		onBefore(){
+			this.maskStatus = true
+		},
+		onAfter(){
+			this.maskStatus = false
 		}
 	}
 };
@@ -68,14 +84,12 @@ export default {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	width: 100%;
-	height: 100%;
 	z-index: 999;
 	background-color: rgba(0, 0, 0, 0.45);
 }
 
 .dialog-container {
-	position: fixed;
+
 }
 .dialog-modal {
 	position: fixed;
@@ -95,16 +109,17 @@ export default {
 	.dialog-footer {
 		border-top: 1px solid #e8e8e8;
 		background: #f9f9f9;
+		text-align: right;
 		width: 100%;
 		height: 40px;
-		padding: 10px;
+		padding: 5px;
 	}
 
 	.dialog-title {
 		position: relative;
 		background: rgba(255, 255, 255, 0.4);
 		color: #333;
-		.Filter(saturate(1.2));
+		//.Filter(saturate(1.2));
 		text-align: center;
 		line-height: @titleHeight;
 		height: @titleHeight;
