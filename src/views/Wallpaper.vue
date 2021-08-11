@@ -1,6 +1,6 @@
 <template>
 	<div class="wallpaper-section">
-		<div class="wallpaper-section" @mousedown="onMousedown($event)" :style="{background: 'url('+wall[index].imge+')'}">
+		<div class="wallpaper-section" @mousedown="onMousedown($event)" :style="{background: 'url('+ wallpaper +')'}">
 
 		</div>
 		<div class="mouse-action-section">
@@ -14,14 +14,6 @@
 		name: 'wallpaper',
 		data() {
 			return {
-				wall:[
-					{imge:''},
-					{imge: require('../assets/wall/wall-0.jpg')},
-					{imge: require('../assets/wall/wall-1.jpg')},
-					{imge: require('../assets/wall/wall-2.jpg')},
-					{imge: require('../assets/wall/wall-3.jpg')},
-					{imge: require('../assets/wall/wall-4.jpg')}
-				],
 				selection: {
 					startSelection: false,
 					startPosition: {},
@@ -32,9 +24,8 @@
 			}
 		},
 		computed:{
-			index(){
-				let i = this.$store.state.manager.wallIndex
-				return i <= 0 ? 1:( i > 5 ? 0:i)
+			wallpaper(){
+				return this.$store.state.manager.wallpaper
 			}
 		},
 		methods: {

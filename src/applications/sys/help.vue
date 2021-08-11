@@ -1,11 +1,14 @@
 <template>
-  <div class="home">
-		HELP page
-  </div>
+	<div class="help" ></div>
 </template>
 
 <script>
 export default {
-  name: 'Help',
-}
+	name: 'Help',
+	data() {
+		return {
+			
+		};
+	}
+};
 </script>

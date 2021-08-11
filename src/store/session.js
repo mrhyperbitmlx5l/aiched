@@ -17,7 +17,7 @@ export default {
 	},
 	actions: {
 		lockScreen({commit}) {
-			console.log("[lockScreen]=========>")
+			//console.log("[lockScreen]=========>")
 			utils.setToken("")
 			commit('setToken',"")
 			router.push('/login').catch(err => {

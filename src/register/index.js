@@ -10,7 +10,7 @@ const register = {
 		"id": "0000",
 		"name": "帮助",
 		"page": "sys/help",
-		"link": false,
+		"link": true,
 		"width": 500,
 		"height": 400,
 		"icon": "help",
@@ -34,32 +34,14 @@ const register = {
 			"icon": "jsj",
 		},{
 			"id": "0003",//id
-			"name": "HelloWorld",//title
-			"page": "sys/HelloWorld",//组件
+			"name": "Ant Design Vue DEMO",//title
 			"icon": "folder",//图标
 			"type": "folder",
 			"link": false,//是否显示桌面图标
 			"sublist":[
-				{"id":"000301","name":"sub001","icon":"firefox","type":"application","link":true},
-				{"id":"000302","name":"2222","icon":"firefox"},
-				{"id":"000303","name":"3333","icon":"firefox"}
+				{"id":"000301","name":"Ant Design Vue 测试1","icon":"setting","page": "demo","type":"application","link":false},
+				{"id":"000302","name":"Ant Design Vue 测试2","icon":"call","page": "demo2","type":"application","link":false}
 			]
-		},
-		{
-			"id": "0004",
-			"name": "Ant Design Vue 测试1",
-			"page": "demo",
-			"icon": "setting",
-			"link": true,
-			"width": 800,
-			"height": 400,
-		},
-		{
-			"id": "0005",
-			"name": "Ant Design Vue 测试2",
-			"page": "demo2",
-			"icon": "call",
-			"link": true,
 		},
 		{
 			"id": "0006",
@@ -85,36 +67,6 @@ const register = {
 			"page": "sys/HelloWorld",
 			"icon": "chrome",
 			"link": true
-		},
-		{
-			"id": "0010",
-			"name": "第10",
-			"page": "sys/HelloWorld",
-			"icon": "chrome",
-		},
-		{
-			"id": "0011",
-			"name": "第10",
-			"page": "sys/HelloWorld",
-			"icon": "chrome",
-		},
-		{
-			"id": "0012",
-			"name": "第10",
-			"page": "sys/HelloWorld",
-			"icon": "chrome",
-		},
-		{
-			"id": "0013",
-			"name": "第10",
-			"page": "sys/HelloWorld",
-			"icon": "chrome",
-		},
-		{
-			"id": "0014",
-			"name": "第10",
-			"page": "sys/HelloWorld",
-			"icon": "chrome",
 		}
 	]
 }

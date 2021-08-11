@@ -4,7 +4,7 @@ export default {
 	namespaced: true,
 	state: {
 		startMenu: false,
-		wallIndex: 0,
+		wallpaper: "",
 		contextMenu: {
 			type: 'wall',
 			x: 0,
@@ -17,6 +17,8 @@ export default {
 	},
 	mutations: {
 		init(state) {
+			let wallpaper = utils.getLocalstorage('wallpaper',"")
+			state.wallpaper = wallpaper
 			//console.log("=======>" + JSON.stringify(REGISTER))
 			REGISTER.application.forEach(item => {
 				let app = {}
@@ -147,8 +149,9 @@ export default {
 			state.contextMenu.type = ''
 			state.contextMenu.data = {}
 		},
-		randomWall(state) {
-			state.wallIndex = utils.randomNum(1, 5)
+		setWallpaper(state, url){
+			utils.setLocalstorage('wallpaper',url)
+			state.wallpaper = url
 		}
 	},
 	actions: {

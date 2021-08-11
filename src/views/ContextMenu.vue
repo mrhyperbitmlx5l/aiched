@@ -65,13 +65,6 @@ export default {
 				},
 				{
 					id: '3',
-					text: '下一个桌面背景',
-					type: 'default',
-					disabled: false,
-					action: 'manager/nextWall'
-				},
-				{
-					id: '4',
 					text: '壁纸设置',
 					type: 'default',
 					disabled: false,

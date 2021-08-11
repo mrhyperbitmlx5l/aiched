@@ -1,60 +1,93 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+	<div class="display-container">
+		<div class="display-preview"><img :src="preview" /></div>
+		<div class="display-list">
+			<div class="display-list-item" :class="{ 'item-selected': item.selected }" v-for="(item, index) in images" :key="index" @click="onSelect(item.url)"><img :src="item.url" /></div>
+		</div>
+	</div>
 </template>
 
 <script>
+import * as utils from '@/utils/index'
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+	name: 'Display',
+	data() {
+		return {
+			images: [
+				{ url: '/wall/wall-0.jpg', selected: false },
+				{ url: '/wall/wall-1.jpg', selected: false },
+				{ url: '/wall/wall-2.jpg', selected: true },
+				{ url: '/wall/wall-3.jpg', selected: false },
+				{ url: '/wall/wall-4.jpg', selected: false },
+				{ url: '/wall/wall-5.jpg', selected: false }
+			],
+			preview: utils.getLocalstorage('wallpaper',"")
+		};
+	},
+	computed: {
+		wallpaper() {
+			return this.$store.state.manager.wallpaper;
+		}
+	},
+	created() {
+		this.selectwallpaper()
+	},
+	methods: {
+		selectwallpaper(){
+			this.images.forEach(item => {
+				if(item.url === this.wallpaper){
+					item.selected = true
+				} else {
+					item.selected = false
+				}
+			})
+		},
+		onSelect(url){
+			this.preview = url
+			this.$store.commit('manager/setWallpaper',url);
+			this.selectwallpaper()
+		}
+	}
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.display-container {
+	background-color: #f9f9f9;
+	width: 100%;
+	height: 100%;
+	margin: 0;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.display-preview {
+	width: 60%;
+	margin: 0px auto;
+	padding: 15px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.display-preview img {
+	width: 100%;
 }
-a {
-  color: #42b983;
+.display-list {
+	width: 100%;
+	white-space: nowrap;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	margin: 0px auto;
+	padding: 10px 20px;
+}
+.display-list-item {
+	margin: 5px;
+	display: inline-block;
+}
+.display-list-item:hover {
+	border: 1px solid #a0d911;
+}
+.item-selected {
+	border: 1px solid red;
+}
+.display-list-item:active {
+	border: 1px solid #a8071a;
+}
+
+.display-list-item img {
+	height: 130px;
 }
 </style>

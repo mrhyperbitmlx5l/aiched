@@ -11,7 +11,7 @@
 				{{ task.title }}
 			</div>
 		</div>
-		<transition enter-active-class="animate bounceInLeft" leave-active-class="animated bounceOutLeft">
+		<transition enter-active-class="animate zoomIn" leave-active-class="animated bounceOutLeft">
 			<div class="dog-menu" v-show="showmenu">
 				<div class="dog-menu-list">
 					<ul>
