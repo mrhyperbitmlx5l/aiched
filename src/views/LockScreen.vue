@@ -1,11 +1,11 @@
 <template>
 	<div class="lockScreen-container">
 		<div class="login-container">
-			<h1>Welcome</h1>
+			<h1>登陆</h1>
 			<form class="form">
-				<input type="text" placeholder="Username" />
-				<input type="password" placeholder="Password" />
-				<button type="submit" @click="onLogin()">Login</button>
+				<input type="text" placeholder="用户名" />
+				<input type="password" placeholder="密码" />
+				<button type="submit" @click="onLogin()">登陆</button>
 			</form>
 		</div>
 		<ul class="square-cartoon">
