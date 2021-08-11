@@ -1,3 +1,6 @@
+import Cookies from 'js-cookie'
+//import JsEncrypt from 'jsencrypt'
+
 export function ObjectIsNull(object) {
 	if (!object && typeof(object) != 'undefined' && object != 0) {
 		return false
@@ -42,6 +45,24 @@ export function randomNum(minNum, maxNum) {
 		default:
 			return 0
 	}
+}
+
+const TokenKey = 'DOG_START_KEY'
+
+export function getToken() {
+	let token = Cookies.get(TokenKey)
+	if (token === undefined) {
+		return ''
+	}
+	return token
+}
+
+export function setToken(token) {
+	return Cookies.set(TokenKey, token)
+}
+
+export function removeToken() {
+	return Cookies.remove(TokenKey)
 }
 /**
  * Localstorage 存储数据

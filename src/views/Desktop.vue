@@ -28,7 +28,7 @@
 			Wallpaper,
 			Taskbar,
 			IconGrid,
-			ContextMenu
+			ContextMenu,
 		},
 		methods: {
 			clean(){
