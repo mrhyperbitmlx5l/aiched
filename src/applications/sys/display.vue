@@ -14,12 +14,12 @@ export default {
 	data() {
 		return {
 			images: [
-				{ url: '/wall/wall-0.jpg', selected: false },
-				{ url: '/wall/wall-1.jpg', selected: false },
-				{ url: '/wall/wall-2.jpg', selected: true },
-				{ url: '/wall/wall-3.jpg', selected: false },
-				{ url: '/wall/wall-4.jpg', selected: false },
-				{ url: '/wall/wall-5.jpg', selected: false }
+				{ url: './wall/wall-0.jpg', selected: false },
+				{ url: './wall/wall-1.jpg', selected: false },
+				{ url: './wall/wall-2.jpg', selected: true },
+				{ url: './wall/wall-3.jpg', selected: false },
+				{ url: './wall/wall-4.jpg', selected: false },
+				{ url: './wall/wall-5.jpg', selected: false }
 			],
 			preview: utils.getLocalstorage('wallpaper',"")
 		};
