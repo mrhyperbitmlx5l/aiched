@@ -64,8 +64,10 @@ const register = {
 		{
 			"id": "0009",
 			"name": "第9",
-			"page": "sys/HelloWorld",
+			"page": "logs",
 			"icon": "chrome",
+			"width": 1000,
+			"height": 600,
 			"link": true
 		}
 	]

@@ -23,6 +23,6 @@ Mock.mock(/\/api\/register.do/, 'post', sessionAPI.register)
 Mock.mock(/\/api\/login.do/, 'post', sessionAPI.login)
 
 Mock.mock(/\/api\/logs\/list.do/, 'post', logsAPI.logslist)
-
+Mock.mock(/\/api\/logs\/get.do/, 'post', logsAPI.getlogs)
 
 export default Mock

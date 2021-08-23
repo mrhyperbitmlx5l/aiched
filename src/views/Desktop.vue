@@ -5,6 +5,7 @@
 		<taskbar></taskbar>
 		<application ></application>
 		<ContextMenu></ContextMenu>
+		<FloatBall :text="'哈哈'"></FloatBall>
 	</div>
 </template>
 
@@ -14,6 +15,7 @@
 	import Taskbar from './Taskbar.vue'
 	import IconGrid from './IconGrid.vue'
 	import ContextMenu from './ContextMenu.vue'
+	import FloatBall from './FloatBall.vue'
 	export default {
 		name: 'Desktop',
 		beforeCreate(){
@@ -29,6 +31,7 @@
 			Taskbar,
 			IconGrid,
 			ContextMenu,
+			FloatBall
 		},
 		methods: {
 			clean(){

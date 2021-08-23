@@ -15,7 +15,7 @@
 					<span class="button close" @mousedown="onClose(setting.id)"></span>
 				</div>
 			</header>
-			<div class="window-body" :ref="'window_' + setting.id">
+			<div class="window-body" :ref="'window_' + setting.id" >
 				<keep-alive><component v-bind:is="subComponent" :window.sync="window"></component></keep-alive>
 			</div>
 			<div class="resize-overlay" v-show="overlayShow"></div>
@@ -201,11 +201,16 @@ export default {
 	}
 	.window-body {
 		background: #f9f9f9;
-		height: 100%;
+		right: 0;
+		bottom:0;
+		left: 0;
+		position:absolute;  
+		top: @titleHeight;  
+		width: 100%;
 	}
 
 	.window-title {
-		position: relative;
+		width: 100%;
 		background: rgba(255, 255, 230, 0.8);
 		text-align: center;
 		line-height: @titleHeight;
@@ -230,6 +235,7 @@ export default {
 			background: rgba(255, 255, 255, 0.4);
 			color: #333;
 		}
+		z-index: 200;
 	}
 
 	&.maximized {

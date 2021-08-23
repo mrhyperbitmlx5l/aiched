@@ -3,6 +3,7 @@ import * as utils from '@/utils/index'
 export default {
 	namespaced: true,
 	state: {
+		dateFormat: 'YYYY-MM-DD',
 		startMenu: false,
 		wallpaper: "",
 		contextMenu: {

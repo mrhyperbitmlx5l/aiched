@@ -8,3 +8,11 @@ export function logslist(data) {
   })
 }
 
+export function getlogs(data) {
+  return service({
+    url: '/api/logs/get.do',
+    method: 'post',
+    data: data
+  })
+}
+
