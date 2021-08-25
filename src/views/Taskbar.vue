@@ -79,7 +79,7 @@ export default {
 					tasks.push(task);
 				}
 			});
-			return tasks;
+			return tasks.sort((a,b)=>{return a.date-b.date});
 		},
 		itemWidth() {
 			if (this.$store.state.manager.tasklist.length < 5) {

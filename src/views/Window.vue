@@ -3,7 +3,7 @@
 			class="window animated"
 			:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized ,  bounceIn:this.animatedIn ,zoomOut:this.animatedOut}"
 			v-show="!setting.hidden"
-			:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px' }"
+			:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px','z-index':setting.index }"
 			@mousedown="onFocus(setting.id)"
 		>
 			<header class="window-title" @mousedown.self="onMousedown($event)">

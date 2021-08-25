@@ -70,23 +70,15 @@ export default {
 			})
 		},
 		focusApplication(state, id) {
-			let flag = false
-			let last = -1
+			let temp = state.tasklist.filter(t => t.id == id)[0]
+			state.tasklist = state.tasklist.filter(t => t.id != id)
 			state.tasklist.forEach(function(item, index) {
-				if ((!utils.StringIsNull(id) && item.id == id && !item.hidden)) {
-					item.focus = true
-					flag = true
-				} else {
-					item.focus = false
-				}
-				if (!item.hidden) {
-					last = index
-				}
+				item.focus = false
+				item.index = index
 			})
-			//console.log(id +"  item2========>" + last + "===>" + JSON.stringify(state.tasklist))
-			if (!flag && last >= 0 && state.tasklist.length >= 1) {
-				state.tasklist[last].focus = true
-			}
+			temp.focus = true
+			state.tasklist.push(temp)
+			temp.index = state.tasklist.length + 1
 		},
 		openApplication(state, id) {
 			let temp = state.tasklist.filter(t => t.id == id)
@@ -102,6 +94,7 @@ export default {
 				app.page = utils.ObjectIsNull(object.page) ? "" : object.page
 				app.hidden = false
 				app.focus = true
+				app.date = new Date()
 				state.tasklist.push(app)
 			}
 		},

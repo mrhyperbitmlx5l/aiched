@@ -1,13 +1,33 @@
 <template>
 	<div style="height: 100%;">
-		<a-button type="primary" @click="showModal">Open Modal with customized footer</a-button>
+		<a-button type="primary" @click="showModal">模态对话框</a-button>
 		<a-button type="primary" @click="display = true">打开抽屉</a-button>
-		<Dialog v-model="visible" icon="call" title='模态对话框' :inside="true" width='500' @onOk="onOk">
-			<div>模态对话框</div>
-			<div>模态对话框</div>
-			<div>模态对话框</div>
+		<Dialog v-model="visible" icon="call" title="模态对话框" :inside="true" width="500" @onOk="onOk">
+			<a-form-model layout="inline" :model="formInline" @submit="handleSubmit" @submit.native.prevent>
+				<a-form-model-item>
+					<a-input v-model="formInline.user" placeholder="Username"><a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /></a-input>
+				</a-form-model-item>
+				<a-form-model-item>
+					<a-input v-model="formInline.password" type="password" placeholder="Password"><a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" /></a-input>
+				</a-form-model-item>
+				<a-form-model-item>
+					<a-button type="primary" html-type="submit" :disabled="formInline.user === '' || formInline.password === ''">Log in</a-button>
+				</a-form-model-item>
+			</a-form-model>
 		</Dialog>
-		<drawer title="我是一个抽屉组件" :display.sync="display" :inside="true" :width="drawerWidth" :mask="true">1. Hello, world! 2. Do you like it?</drawer>
+		<drawer title="我是一个抽屉组件" :display.sync="display" :inside="true" :width="drawerWidth" :mask="true">
+			<a-collapse v-model="activeKey">
+				<a-collapse-panel key="1" header="This is panel header 1">
+					<p>{{ text }}</p>
+				</a-collapse-panel>
+				<a-collapse-panel key="2" header="This is panel header 2" :disabled="false">
+					<p>{{ text }}</p>
+				</a-collapse-panel>
+				<a-collapse-panel key="3" header="This is panel header 3" disabled>
+					<p>{{ text }}</p>
+				</a-collapse-panel>
+			</a-collapse>
+		</drawer>
 	</div>
 </template>
 <script>
@@ -23,7 +43,13 @@ export default {
 			drawerWidth: '500px',
 			display: false,
 			loading: false,
-			visible: false
+			visible: false,
+			formInline: {
+				user: '',
+				password: ''
+			},
+			text: `A dog is a type of domesticated animal.Known for its loyalty and faithfulness,it can be found as a welcome guest in many households across the world.`,
+			activeKey: ['1']
 		};
 	},
 	methods: {

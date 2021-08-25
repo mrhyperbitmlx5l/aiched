@@ -51,8 +51,8 @@ const register = {
 		},
 		{
 			"id": "0007",
-			"name": "第7",
-			"page": "sys/HelloWorld",
+			"name": "对话框抽屉",
+			"page": "demo2",
 			"icon": "folder",
 		},
 		{
