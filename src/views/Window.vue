@@ -1,28 +1,26 @@
 <template>
-	<div
-		class="window"
-		:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized }"
-		v-show="!setting.hidden"
-		:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px' }"
-		@mousedown="onFocus(setting.id)"
-	>
-		<header class="window-title" @mousedown.self="onMousedown($event)">
-			<div class="icon" :class="setting.icon"></div>
-			{{ setting.title }}
-			<div class="window-control">
-				<span class="button min" @mousedown="onMin(setting.id)"></span>
-				<span class="button max" @mousedown="onMax()"></span>
-				<span class="button close" @mousedown="onClose(setting.id)"></span>
+		<div
+			class="window animated"
+			:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized ,  bounceIn:this.animatedIn ,zoomOut:this.animatedOut}"
+			v-show="!setting.hidden"
+			:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px','z-index':setting.index }"
+			@mousedown="onFocus(setting.id)"
+		>
+			<header class="window-title" @mousedown.self="onMousedown($event)">
+				<div class="icon" :class="setting.icon"></div>
+				{{ setting.title }}
+				<div class="window-control">
+					<span class="button min" @mousedown="onMin(setting.id)"></span>
+					<span class="button max" @mousedown="onMax()"></span>
+					<span class="button close" @mousedown="onClose(setting.id)"></span>
+				</div>
+			</header>
+			<div class="window-body" :ref="'window_' + setting.id" >
+				<keep-alive><component v-bind:is="subComponent" :window.sync="window"></component></keep-alive>
 			</div>
-		</header>
-		<div class="window-body">
-			<keep-alive>
-				<component v-bind:is="subComponent" :window.sync="window" ></component>
-			</keep-alive>
+			<div class="resize-overlay" v-show="overlayShow"></div>
+			<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown.self="onResize(value)"></div>
 		</div>
-		<div class="resize-overlay" v-show="overlayShow"></div>
-		<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown="onResize(value)"></div>
-	</div>
 </template>
 
 <script>
@@ -33,7 +31,7 @@ export default {
 	},
 	data() {
 		return {
-			subComponent:{},
+			subComponent: {},
 			timer: {},
 			drag: false,
 			resize: false,
@@ -41,6 +39,8 @@ export default {
 			height: 400,
 			maximized: false,
 			animating: false,
+			animatedIn:false,
+			animatedOut:false,
 			resizable: true,
 			position: {
 				x: 0,
@@ -48,21 +48,12 @@ export default {
 			},
 			oldposition: {},
 			overlayShow: false,
-			resizeSide: [
-				'side-top',
-				'side-bottom',
-				'side-left',
-				'side-right',
-				'angle-top-left',
-				'angle-top-right',
-				'angle-bottom-left',
-				'angle-bottom-right'
-			]
+			resizeSide: ['side-top', 'side-bottom', 'side-left', 'side-right', 'angle-top-left', 'angle-top-right', 'angle-bottom-left', 'angle-bottom-right']
 		};
 	},
 	computed: {
-		window(){
-			return {"width":this.width,"height":this.height}
+		window() {
+			return { width: this.width, height: this.height, id: this.setting.id };
 		}
 	},
 	created() {
@@ -72,23 +63,38 @@ export default {
 		this.height = this.setting.height > 0 ? this.setting.height : w / 3;
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
-		//console.log("====>" + this.setting.page)
-		this.subComponent =() => import('../applications/' + this.setting.page + '.vue');
+		this.animatedIn = true
+		//console.log("created====>")
+		this.subComponent = () => import('../applications/' + this.setting.page + '.vue');
+	},
+	mounted() {
+		//console.log("mounted====>")
+		this.animatedIn = true
+		clearTimeout(this.timer);
+		this.timer = setTimeout(() => {
+			clearTimeout(this.timer);
+			this.animatedIn = false
+		},400)
 	},
 	methods: {
 		onFocus(id) {
-			this.$store.dispatch('manager/focusTask', id)
+			this.$store.dispatch('manager/focusTask', id);
 		},
 		onClose(id) {
-			this.$store.dispatch('manager/closeTask', id);
+			this.animatedOut = true
+			clearTimeout(this.timer);
+			this.timer = setTimeout(() => {
+				clearTimeout(this.timer);
+				this.$store.dispatch('manager/closeTask', id);
+			},300)
 		},
 		onMin(id) {
 			this.$store.dispatch('manager/minTask', id);
 		},
 		onMax() {
 			if (this.maximized && this.oldPosition) {
-				this.animating = true
-				this.resizable = true
+				this.animating = true;
+				this.resizable = true;
 				clearTimeout(this.timer);
 				this.timer = setTimeout(() => {
 					this.maximized = false;
@@ -103,8 +109,8 @@ export default {
 					}, 500);
 				});
 			} else {
-				this.animating = true
-				this.resizable = false
+				this.animating = true;
+				this.resizable = false;
 				clearTimeout(this.timer);
 				this.timer = setTimeout(() => {
 					this.maximized = true;
@@ -116,7 +122,7 @@ export default {
 					};
 					this.position.y = 0;
 					this.position.x = 0;
-					this.height = document.body.clientHeight * 0.95
+					this.height = document.body.clientHeight * 0.95;
 					this.width = document.body.clientWidth;
 					clearTimeout(this.timer);
 					this.timer = setTimeout(() => {
@@ -126,55 +132,55 @@ export default {
 			}
 		},
 		onResize(direction) {
-			this.resize = true
-			this.overlayShow = true
-			document.onmousemove = (event) => {
+			this.resize = true;
+			this.overlayShow = true;
+			document.onmousemove = event => {
 				if (this.resize) {
 					let x = event.clientX;
 					let y = event.clientY;
-					let mx = document.body.clientWidth
-					let my = document.body.clientHeight * 0.95
-					x = x>=0 ? (x >=mx ? mx:x ):0
-					y = y>=0 ? (y >=my ? my:y ):0
-					if(direction.indexOf("top") >=0 ){
-						this.height = this.height + (this.position.y - y)
-						this.position.y = y
+					let mx = document.body.clientWidth;
+					let my = document.body.clientHeight * 0.95;
+					x = x >= 0 ? (x >= mx ? mx : x) : 0;
+					y = y >= 0 ? (y >= my ? my : y) : 0;
+					if (direction.indexOf('top') >= 0) {
+						this.height = this.height + (this.position.y - y);
+						this.position.y = y;
 					}
-					if(direction.indexOf("left") >=0 ){
-						this.width = this.width + (this.position.x - x)
-						this.position.x = x
+					if (direction.indexOf('left') >= 0) {
+						this.width = this.width + (this.position.x - x);
+						this.position.x = x;
 					}
-					if(direction.indexOf("bottom") >=0 ){
-						this.height = this.height + (y - (this.position.y + this.height))
+					if (direction.indexOf('bottom') >= 0) {
+						this.height = this.height + (y - (this.position.y + this.height));
 					}
-					if(direction.indexOf("right") >=0 ){
-						this.width = this.width + (x - (this.position.x + this.width))
+					if (direction.indexOf('right') >= 0) {
+						this.width = this.width + (x - (this.position.x + this.width));
 					}
 				}
-			}
+			};
 			document.onmouseup = () => {
-				this.resize = false
-				this.overlayShow = false
-			}
+				this.resize = false;
+				this.overlayShow = false;
+			};
 		},
 		onMousedown(e) {
 			let w = e.clientX - this.position.x;
 			let h = e.clientY - this.position.y;
-			if(!this.maximized){
+			if (!this.maximized) {
 				this.drag = true;
 				document.onmousemove = e => {
 					if (this.drag) {
-						let mx = document.body.clientWidth
-						let my = document.body.clientHeight * 0.95
+						let mx = document.body.clientWidth;
+						let my = document.body.clientHeight * 0.95;
 						this.position.x = e.clientX - w;
 						this.position.y = e.clientY - h;
-						this.position.x = this.position.x <=0 ? 0:((this.position.x + this.width) >= mx ? (mx- this.width):this.position.x)
-						this.position.y = this.position.y <=0 ? 0:((this.position.y + this.height) >= my ? (my- this.height):this.position.y)
+						this.position.x = this.position.x <= 0 ? 0 : this.position.x + this.width >= mx ? mx - this.width : this.position.x;
+						this.position.y = this.position.y <= 0 ? 0 : this.position.y + this.height >= my ? my - this.height : this.position.y;
 					}
 				};
 				document.onmouseup = () => {
 					this.drag = false;
-				}
+				};
 			}
 		}
 	}
@@ -186,25 +192,32 @@ export default {
 
 .window {
 	position: absolute;
-	background: #fff;
 	border-radius: 5px;
 	overflow: hidden;
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-	
+
 	&.animating {
 		transition: all ease 0.5s;
 	}
+	.window-body {
+		background: #f9f9f9;
+		right: 0;
+		bottom:0;
+		left: 0;
+		position:absolute;  
+		top: @titleHeight;  
+		width: 100%;
+	}
 
 	.window-title {
-		position: relative;
-		background: #f2f6ff;
+		width: 100%;
+		background: rgba(255, 255, 230, 0.8);
 		text-align: center;
 		line-height: @titleHeight;
 		height: @titleHeight;
+
 		cursor: default;
 		color: #aaa;
-		.Filter(saturate(0.5));
-
 		.icon {
 			position: absolute;
 			top: 4px;
@@ -218,10 +231,11 @@ export default {
 	&.focus {
 		box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
 		.window-title {
-			background: #f5f8ff;
+			//background: #f5f8ff;
+			background: rgba(255, 255, 255, 0.4);
 			color: #333;
-			.Filter(saturate(1.2));
 		}
+		z-index: 200;
 	}
 
 	&.maximized {
@@ -378,7 +392,7 @@ export default {
 		height: @reactionWidth;
 		cursor: n-resize;
 	}
-	.angle-bottom-right {
+	.angle-bottom-right{
 		right: 0;
 		bottom: 0;
 		width: @reactionWidth*2;

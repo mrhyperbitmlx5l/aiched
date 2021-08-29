@@ -1,63 +1,74 @@
 <template>
-  <a-layout id="components-layout-demo-custom-trigger">
-    <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-      <div class="logo" />
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
-        <a-menu-item key="1">
-          <a-icon type="user" />
-          <span>nav 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <a-icon type="video-camera" />
-          <span>nav 2</span>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <a-icon type="upload" />
-          <span>nav 3</span>
-        </a-menu-item>
-      </a-menu>
-    </a-layout-sider>
-    <a-layout>
-      <a-layout-header style="background: #fff; padding: 0">
-        <a-icon
-          class="trigger"
-          :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-          @click="() => (collapsed = !collapsed)"
-        />
-      </a-layout-header>
-      <a-layout-content
-        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
-      >
-        Content
-      </a-layout-content>
-    </a-layout>
-  </a-layout>
+	<div style="height: 100%;">
+		<a-button type="primary" @click="showModal">模态对话框</a-button>
+		<a-button type="primary" @click="display = true">打开抽屉</a-button>
+		<Dialog v-model="visible" icon="call" title="模态对话框" :inside="true" width="500" @onOk="onOk">
+			<a-form-model layout="inline" :model="formInline" @submit="handleSubmit" @submit.native.prevent>
+				<a-form-model-item>
+					<a-input v-model="formInline.user" placeholder="Username"><a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /></a-input>
+				</a-form-model-item>
+				<a-form-model-item>
+					<a-input v-model="formInline.password" type="password" placeholder="Password"><a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" /></a-input>
+				</a-form-model-item>
+				<a-form-model-item>
+					<a-button type="primary" html-type="submit" :disabled="formInline.user === '' || formInline.password === ''">Log in</a-button>
+				</a-form-model-item>
+			</a-form-model>
+		</Dialog>
+		<drawer title="我是一个抽屉组件" :display.sync="display" :inside="true" :width="drawerWidth" :mask="true">
+			<a-collapse v-model="activeKey">
+				<a-collapse-panel key="1" header="This is panel header 1">
+					<p>{{ text }}</p>
+				</a-collapse-panel>
+				<a-collapse-panel key="2" header="This is panel header 2" :disabled="false">
+					<p>{{ text }}</p>
+				</a-collapse-panel>
+				<a-collapse-panel key="3" header="This is panel header 3" disabled>
+					<p>{{ text }}</p>
+				</a-collapse-panel>
+			</a-collapse>
+		</drawer>
+	</div>
 </template>
 <script>
+import drawer from '@/views/drawer';
+import Dialog from '@/views/DialogModal';
 export default {
-  data() {
-    return {
-      collapsed: false,
-    };
-  },
+	components: {
+		drawer,
+		Dialog
+	},
+	data() {
+		return {
+			drawerWidth: '500px',
+			display: false,
+			loading: false,
+			visible: false,
+			formInline: {
+				user: '',
+				password: ''
+			},
+			text: `A dog is a type of domesticated animal.Known for its loyalty and faithfulness,it can be found as a welcome guest in many households across the world.`,
+			activeKey: ['1']
+		};
+	},
+	methods: {
+		showModal() {
+			this.visible = true;
+		},
+		handleOk() {
+			this.loading = true;
+			setTimeout(() => {
+				this.visible = false;
+				this.loading = false;
+			}, 3000);
+		},
+		handleCancel() {
+			this.visible = false;
+		},
+		onOk() {
+			alert('close');
+		}
+	}
 };
 </script>
-<style>
-#components-layout-demo-custom-trigger .trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-#components-layout-demo-custom-trigger .trigger:hover {
-  color: #1890ff;
-}
-
-#components-layout-demo-custom-trigger .logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
-}
-</style>

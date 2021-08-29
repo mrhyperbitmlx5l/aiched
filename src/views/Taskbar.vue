@@ -11,24 +11,31 @@
 				{{ task.title }}
 			</div>
 		</div>
-		<transition name="zoom" enter-active-class="animate zoomIn" leave-active-class="animated zoomOut">
+		<transition enter-active-class="animate zoomIn" leave-active-class="animated bounceOutLeft">
 			<div class="dog-menu" v-show="showmenu">
 				<div class="dog-menu-list">
 					<ul>
 						<li>列表</li>
-						<li v-for="item in applications" :key="item.id">
-							<a href="#" @click="openApplication(item.id)"><div class="icon" :class="item.icon"></div>{{item.name}}</a>
+						<li v-for="item in menulist" :key="item.id">
+							<div class="menu-item" @click="onClickItem(item)">
+								<i class="icon" :class="item.icon"></i>
+								<span>{{ item.name }}</span>
+							</div>
+							<ul v-if="item.sublist" v-show="!item.subhidden">
+								<li v-for="sub in item.sublist" :key="sub.id">
+									<div class="menu-item" style="margin-left: 20px ;text-align:left" @click="onClickItem(sub)">
+										<i class="icon" :class="sub.icon"></i>
+										<span>{{ sub.name }}</span>
+									</div>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</div>
 				<div class="dog-menu-links">
 					<ul>
-						<li>
-							<a href="#"><span>Documentsspan></span></a>
-						</li>
-						<li>
-							<a href="#"><span>Documentsspan></span></a>
-						</li>
+						<li><a href="#" @click="onLink('0000')"><span>帮助</span></a></li>
+						<li><a href="#" @click="onLink('0001')"><span>壁纸</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -36,15 +43,35 @@
 	</div>
 </template>
 <script>
+import REGISTER from '../register/index.js';
 export default {
 	name: 'Taskbar',
 	data() {
-		return {};
+		return {
+			menulist: []
+		};
+	},
+	created() {
+		REGISTER.application.forEach(item => {
+			let object = {};
+			if (item.sublist) {
+				object.sublist = [];
+				item.sublist.forEach(o => {
+					let sub = {};
+					sub.id = o.id;
+					sub.name = o.name;
+					sub.icon = o.icon;
+					object.sublist.push(sub);
+				});
+				object.subhidden = true;
+			}
+			object.id = item.id;
+			object.name = item.name;
+			object.icon = item.icon;
+			this.menulist.push(object);
+		});
 	},
 	computed: {
-		applications() {
-			return this.$store.state.manager.applications
-		},
 		tasklist() {
 			let tasks = [];
 			this.$store.state.manager.tasklist.forEach(task => {
@@ -52,7 +79,7 @@ export default {
 					tasks.push(task);
 				}
 			});
-			return tasks;
+			return tasks.sort((a,b)=>{return a.date-b.date});
 		},
 		itemWidth() {
 			if (this.$store.state.manager.tasklist.length < 5) {
@@ -67,15 +94,24 @@ export default {
 		}
 	},
 	methods: {
-		openApplication(id){
-			this.$store.dispatch('manager/openTask',id)
-			this.$store.commit('manager/selectIcon', '')
+		onClickItem(object) {
+			//console.log('object====>' + JSON.stringify(object));
+			if (object.sublist) {
+				object.subhidden = !object.subhidden;
+			} else {
+				this.$store.dispatch('manager/openTask', object.id);
+				this.$store.commit('manager/selectIcon', '');
+			}
+		},
+		onLink(id){
+			this.$store.dispatch('manager/openTask', id);
+			this.$store.commit('manager/selectIcon', '');
 		},
 		onClick(id) {
-			this.$store.dispatch('manager/showOrhidden', id)
+			this.$store.dispatch('manager/showOrhidden', id);
 		},
 		onStart() {
-			this.$store.commit('manager/openStartMenu')
+			this.$store.commit('manager/openStartMenu');
 		}
 	}
 };
@@ -93,27 +129,26 @@ export default {
 .taskbar-section {
 	width: 100%;
 	height: @taskHeight;
-	background: @taskbackground; // hsla(0,100%,80%,0.5);
+	background: @taskbackground;
 	position: absolute;
-	//-webkit-filter: blur(0.5px); /* Chrome, Opera */
 	bottom: 0;
 	top: auto !important;
 	left: 0;
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
-.task-list {
+.task-list {	
 	width: 92%;
 	float: right;
 	overflow: hidden;
 	border-left: 2px double #333333;
 	height: @taskHeight;
 	cursor: default;
-
 	.task-item {
 		float: left;
 		height: @taskHeight;
-		min-width: 50px;
+		max-width: 120px;
+		min-width: 20px;
 		padding: 0 20px 0 15px;
 		text-align: center;
 		line-height: @taskHeight;
@@ -123,14 +158,14 @@ export default {
 		/*color:#fff;*/
 		/*background:#ccc;*/
 		color: #aaa;
-		.Filter(saturate(0.2));
+		//.Filter(saturate(0.2));
 
 		&.actived {
 			/*background:#4b8de4;*/
 			/*color:#fff;*/
 			color: #111;
 			background: #fff;
-			.Filter(saturate(1));
+			//.Filter(saturate(1));
 		}
 
 		.icon {
@@ -226,11 +261,12 @@ export default {
 	ul {
 		list-style: none;
 	}
-	.icon{
+	.icon {
 		display: inline-block;
 		height: 18px;
 		width: 18px;
 		background-size: cover;
+		margin-right: 5px;
 	}
 }
 
@@ -247,7 +283,7 @@ export default {
 	-webkit-border-radius: 3px;
 	max-height: 400px;
 	overflow-y: auto;
-	a {
+	.menu-item {
 		border: solid 1px transparent;
 		display: block;
 		padding: 3px;
@@ -256,7 +292,7 @@ export default {
 		text-align: left;
 		text-decoration: none;
 	}
-	a:hover {
+	.menu-item:hover {
 		border: solid 1px #7da2ce;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
@@ -275,9 +311,9 @@ export default {
 }
 
 .dog-menu-links {
-	width: 40%;
-	float: left;
-	margin: 7px;
+	width: 45%;
+	float:right;
+	margin: 5px;
 	li.icon {
 		text-align: center;
 	}

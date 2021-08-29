@@ -32,7 +32,7 @@ export default {
 					text: '打开',
 					type: 'default',
 					disabled: false,
-					action: 'openTask'
+					action: 'manager/openTask'
 				},
 				{
 					type: 'divide'
@@ -42,7 +42,7 @@ export default {
 					text: '帮助',
 					type: 'default',
 					disabled: false,
-					action: 'help'
+					action: 'manager/help'
 				}
 			],
 			wall: [
@@ -51,7 +51,7 @@ export default {
 					text: '帮助',
 					type: 'default',
 					disabled: false,
-					action: 'help'
+					action: 'manager/help'
 				},
 				{
 					type: 'divide'
@@ -61,14 +61,14 @@ export default {
 					text: '锁屏',
 					type: 'default',
 					disabled: false,
-					action: 'lockScreen'
+					action: 'session/lockScreen'
 				},
 				{
 					id: '3',
-					text: '下一个桌面背景',
+					text: '壁纸设置',
 					type: 'default',
 					disabled: false,
-					action: 'nextWall'
+					action: 'manager/display'
 				}
 			]
 		};
@@ -91,7 +91,7 @@ export default {
 	methods: {
 		onClick(item) {
 			let date = this.$store.state.manager.contextMenu.data
-			this.$store.dispatch('manager/' + item.action, date);
+			this.$store.dispatch(item.action, date);
 			this.$store.commit('manager/cleanContextMenu');
 		}
 	}
