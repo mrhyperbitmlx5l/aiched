@@ -18,12 +18,12 @@ export default {
 	},
 	mutations: {
 		init(state) {
-			let wallpaper = utils.getLocalstorage('wallpaper',"")
+			let wallpaper = utils.getLocalstorage('wallpaper', "")
 			state.wallpaper = wallpaper
 			//console.log("=======>" + JSON.stringify(REGISTER))
 			REGISTER.application.forEach(item => {
 				let app = {}
-				if(item.sublist||item.type==='folder'){
+				if (item.sublist || item.type === 'folder') {
 					item.sublist.forEach(subitem => {
 						app = {}
 						app.id = subitem.id
@@ -70,15 +70,21 @@ export default {
 			})
 		},
 		focusApplication(state, id) {
-			let temp = state.tasklist.filter(t => t.id == id)[0]
-			state.tasklist = state.tasklist.filter(t => t.id != id)
-			state.tasklist.forEach(function(item, index) {
-				item.focus = false
-				item.index = index
-			})
-			temp.focus = true
-			state.tasklist.push(temp)
-			temp.index = state.tasklist.length + 1
+			let temp = {}
+			if (state.tasklist.length > 0) {
+				if (utils.StringIsNull(id)) {
+					temp = state.tasklist[state.tasklist.length - 1]
+				} else {
+					temp = state.tasklist.filter(t => t.id == id)[0]
+				}
+				temp.index = state.tasklist.length + 1
+				state.tasklist.sort((a,b) => {return a.index-b.index})
+				state.tasklist.forEach(function(item, index) {
+					item.focus = false
+					item.index = index
+				})
+				state.tasklist[state.tasklist.length - 1].focus = true
+			}
 		},
 		openApplication(state, id) {
 			let temp = state.tasklist.filter(t => t.id == id)
@@ -125,8 +131,6 @@ export default {
 					state.tasklist.splice(i, 1)
 				}
 			})
-			//console.log("state.tasklist2========>" + JSON.stringify(state.tasklist))
-			//		
 		},
 		openStartMenu(state) {
 			state.startMenu = !state.startMenu
@@ -143,44 +147,62 @@ export default {
 			state.contextMenu.type = ''
 			state.contextMenu.data = {}
 		},
-		setWallpaper(state, url){
-			utils.setLocalstorage('wallpaper',url)
+		setWallpaper(state, url) {
+			utils.setLocalstorage('wallpaper', url)
 			state.wallpaper = url
 		}
 	},
 	actions: {
-		focusTask({	commit }, id) {
+		focusTask({
+			commit
+		}, id) {
 			commit('focusApplication', id)
 			commit('selectIcon', '')
 			commit('cleanContextMenu')
 		},
-		showOrhidden({commit}, id) {
+		showOrhidden({
+			commit
+		}, id) {
 			commit('showOrhiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		selectIcon({commit}, id) {
+		selectIcon({
+			commit
+		}, id) {
 			commit('selectIcon', id)
 		},
-		openTask({commit}, id) {
+		openTask({
+			commit
+		}, id) {
 			commit('openApplication', id)
 			commit('focusApplication', id)
 		},
-		minTask({commit}, id) {
+		minTask({
+			commit
+		}, id) {
 			commit('hiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		closeTask({commit}, id) {
+		closeTask({
+			commit
+		}, id) {
 			commit('closeApplication', id)
 			commit('focusApplication', '')
 		},
-		nextWall({commit}) {
+		nextWall({
+			commit
+		}) {
 			commit('randomWall')
 		},
-		help({commit}) {
+		help({
+			commit
+		}) {
 			commit('openApplication', '0000')
 			commit('focusApplication', '0000')
 		},
-		display({commit}) {
+		display({
+			commit
+		}) {
 			commit('openApplication', '0001')
 			commit('focusApplication', '0001')
 		}
