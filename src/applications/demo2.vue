@@ -2,8 +2,8 @@
 	<div style="height: 100%;">
 		<a-button type="primary" @click="showModal">模态对话框</a-button>
 		<a-button type="primary" @click="display = true">打开抽屉</a-button>
-		<Dialog v-model="visible" icon="call" title="模态对话框" :inside="true" width="500" @onOk="onOk">
-			<a-form-model layout="inline" :model="formInline" @submit="handleSubmit" @submit.native.prevent>
+		<Dialog v-model="visible" icon="call" title="模态对话框" :inside="true" width="500">
+			<a-form-model layout="inline" :model="formInline"  >
 				<a-form-model-item>
 					<a-input v-model="formInline.user" placeholder="Username"><a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /></a-input>
 				</a-form-model-item>
