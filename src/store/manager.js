@@ -153,56 +153,38 @@ export default {
 		}
 	},
 	actions: {
-		focusTask({
-			commit
-		}, id) {
+		focusTask({commit}, id) {
 			commit('focusApplication', id)
 			commit('selectIcon', '')
 			commit('cleanContextMenu')
 		},
-		showOrhidden({
-			commit
-		}, id) {
+		showOrhidden({commit}, id) {
 			commit('showOrhiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		selectIcon({
-			commit
-		}, id) {
+		selectIcon({commit}, id) {
 			commit('selectIcon', id)
 		},
-		openTask({
-			commit
-		}, id) {
+		openTask({commit}, id) {
 			commit('openApplication', id)
 			commit('focusApplication', id)
 		},
-		minTask({
-			commit
-		}, id) {
+		minTask({commit}, id) {
 			commit('hiddenApplication', id)
 			commit('focusApplication', id)
 		},
-		closeTask({
-			commit
-		}, id) {
+		closeTask({commit}, id) {
 			commit('closeApplication', id)
 			commit('focusApplication', '')
 		},
-		nextWall({
-			commit
-		}) {
+		nextWall({commit}) {
 			commit('randomWall')
 		},
-		help({
-			commit
-		}) {
+		help({commit}) {
 			commit('openApplication', '0000')
 			commit('focusApplication', '0000')
 		},
-		display({
-			commit
-		}) {
+		display({commit}) {
 			commit('openApplication', '0001')
 			commit('focusApplication', '0001')
 		}
