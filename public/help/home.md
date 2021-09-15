@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-![](./_media/logo1.jpg)
-=======
 | 持续集成 | 前端 | 移动端 | 工具 | 后端 | [菜鸟教程](http://www.runoob.com/) |
 | -------- | ---- | ------ | -----|------| ---------------------------------- |
 | [Maven](http://maven.apache.org/)              | [Bootstrap](http://www.bootcss.com/)       | [安卓官网](https://developer.android.google.cn/)  | [Json 格式化](https://www.json.cn/)         | [Java](https://www.java.com/zh_CN/)             | [MongoDB 文档教程](https://docs.mongodb.com/)                                |
@@ -15,5 +12,3 @@
 | [待定]()                                       |[]()                                        | []()                                              | []()                                        | []()                                            | []()                                                                         |
 | [待定]()                                       |[]()                                        | []()                                              | []()                                        | []()                                            | []()                                                                         |
 
-
->>>>>>> origin/1.0.1

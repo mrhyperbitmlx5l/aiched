@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ### 第一章 XXXXXX
  #### xxxxxx
  #### yyyyyy
@@ -9,4 +8,3 @@
 ##### dfsdfsdf
 [`https://github.com/mybatis/mybatis-3`](https://github.com/mybatis/mybatis-3)
 ![](../_media/logo1.jpg)
->>>>>>> origin/1.0.1

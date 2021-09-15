@@ -12,9 +12,5 @@ export default defineComponent({
 	},
 	created() {},
 	methods: {}
-<<<<<<< HEAD
-};
-=======
 });
->>>>>>> origin/1.0.1
 </script>
