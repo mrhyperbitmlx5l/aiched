@@ -32,7 +32,7 @@ export default {
 	computed: {
 		icons() {
 			let icons = []
-			this.$store.state.manager.applications.forEach(item => {
+			this.$store.state.core.applications.forEach(item => {
 				if(item.link){
 					icons.push(item)
 				}

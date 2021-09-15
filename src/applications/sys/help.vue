@@ -2,7 +2,8 @@
 	<iframe v-show="iframeState" id="show-iframe" frameborder="0" name="showHere" target="show-iframe" scrolling="auto" src="help" width="100%" height="100%"></iframe>
 </template>
 <script>
-export default {
+import { defineComponent } from 'vue';
+export default defineComponent({
 	name: 'Help',
 	data() {
 		return {
@@ -11,5 +12,9 @@ export default {
 	},
 	created() {},
 	methods: {}
+<<<<<<< HEAD
 };
+=======
+});
+>>>>>>> origin/1.0.1
 </script>

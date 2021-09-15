@@ -31,7 +31,7 @@ const register = {
 			"link": true,
 			"width": 400,
 			"height": 400,
-			"icon": "jsj",
+			"icon": "calculator",
 		},{
 			"id": "0003",//id
 			"name": "Ant Design Vue DEMO",//title
@@ -40,13 +40,13 @@ const register = {
 			"link": false,//是否显示桌面图标
 			"sublist":[
 				{"id":"000301","name":"Ant Design Vue 测试1","icon":"setting","page": "demo","type":"application","link":false},
-				{"id":"000302","name":"Ant Design Vue 测试2","icon":"call","page": "demo2","type":"application","link":false}
+				{"id":"000302","name":"Ant Design Vue 测试2","icon":"call","page": "demo3","type":"application","link":false}
 			]
 		},
 		{
 			"id": "0006",
-			"name": "第6",
-			"page": "sys/HelloWorld",
+			"name": "Ant Design Vue Demo",
+			"page": "demo3",
 			"icon": "doller",
 		},
 		{
@@ -58,16 +58,16 @@ const register = {
 		{
 			"id": "0008",
 			"name": "第8",
-			"page": "sys/HelloWorld",
+			"page": "demo3",
 			"icon": "safari",
 		},
 		{
 			"id": "0009",
-			"name": "第9",
-			"page": "logs",
+			"name": "日历",
+			"page": "demo4",
 			"icon": "chrome",
-			"width": 1000,
-			"height": 600,
+			"width": 1200,
+			"height": 700,
 			"link": true
 		}
 	]

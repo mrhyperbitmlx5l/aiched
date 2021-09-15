@@ -1,7 +1,7 @@
 <template>
-	<div class="drawer">
+	<div class="drawer" >
 		<div :class="maskClass" @click="closeByMask"></div>
-		<div :class="mainClass" :style="mainStyle" class="main">
+		<div :class="mainClass" :style="mainStyle" class="main" >
 			<div class="drawer-head">
 				<span>{{ title }}</span>
 				<span class="close-btn" v-show="closable" @click="closeByButton">X</span>
@@ -12,7 +12,8 @@
 </template>
 
 <script>
-export default {
+import {defineComponent} from "vue"
+export default defineComponent ({
 	props: {
 		// 是否打开
 		display: {
@@ -23,6 +24,11 @@ export default {
 		title: {
 			type: String,
 			default: '标题'
+		},
+
+		site: {
+			type: String,
+			default: 'left'
 		},
 
 		// 是否显示关闭按钮
@@ -46,7 +52,7 @@ export default {
 		// 宽度
 		width: {
 			type: String,
-			default: '400px'
+			default: '200px'
 		},
 
 		// 是否在父级元素中打开
@@ -71,9 +77,39 @@ export default {
 			};
 		},
 		mainStyle: function() {
+			if (this.site === 'left') {
+				return {
+					width: this.width,
+					left: this.display ? '0' : `-${this.width}`,
+					borderLeft: this.mask ? 'none' : '1px solid #eee'
+				};
+			}
+			if (this.site === 'right') {
+				return {
+					width: this.width,
+					right: this.display ? '0' : `-${this.width}`,
+					borderLeft: this.mask ? 'none' : '1px solid #eee'
+				};
+			}
+			if (this.site === 'top') {
+				return {
+					height: this.display ? this.width:'0' ,
+					width: '100%',
+					top: this.display ? '0' : `-${this.width}`,
+					borderLeft: this.mask ? 'none' : '1px solid #eee'
+				};
+			}
+			if (this.site === 'bottom') {
+				return {
+					height: this.display ? this.width:'0' ,
+					width: '100%',
+					bottom: this.display ? '0' : `-${this.width}`,
+					borderLeft: this.mask ? 'none' : '1px solid #eee'
+				};
+			}
 			return {
 				width: this.width,
-				right: this.display ? '0' : `-${this.width}`,
+				left: this.display ? '0' : `-${this.width}`,
 				borderLeft: this.mask ? 'none' : '1px solid #eee'
 			};
 		}
@@ -92,7 +128,7 @@ export default {
 			this.$emit('update:display', false);
 		}
 	}
-};
+})
 </script>
 
 <style lang="less" rel="stylesheet/less">

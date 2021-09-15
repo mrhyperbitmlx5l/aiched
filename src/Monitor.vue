@@ -1,33 +1,34 @@
 <template>
-	<div id="monitor">
-		<transition name="zoom" enter-active-class="animated slideInLeft" leave-active-class="animated zoomOut">
-			<keep-alive>
-			<router-view />
-			</keep-alive>
-		</transition>
+	<div id="monitor-container">
+		<router-view ></router-view>
 	</div>
 </template>
 
 <script>
-import './style.less';
-import './icon.less';
 
 export default {
 	name: 'monitor',
-	created() {},
+	data() {
+		return {
+		};
+	},
+	created() {
+		//console.log('==================>')
+		//this.$store.dispatch('session/getToken')
+	},
 	watch: {
-		'$store.state.session.token': function() {
-			console.log('this.$store.state.session.token ========> ' + this.$store.state.session.token)
-			if (this.$store.state.session.token.length > 0) {
-				this.$router.push({path: this.redirect || '/'}).catch(err => {
-						err;
-				});
-			} else {
-				this.$router.push({path: this.redirect || '/login'}).catch(err => {
-						err;
-				});
-			}
-		}
+		// '$store.state.session.token': function() {
+		// 	//console.log('this.$store.state.session.token ========> ' + this.$store.state.session.token);
+		// 	if (this.$store.state.session.token.length > 0 ) {
+		// 		this.$router.push({ path: this.redirect || '/' }).catch(err => {
+		// 			err;
+		// 		});
+		// 	} else {
+		// 		this.$router.push({ path: this.redirect || '/login' }).catch(err => {
+		// 			err;
+		// 		});
+		// 	}
+		// }
 	}
 };
 </script>

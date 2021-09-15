@@ -1,16 +1,11 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import {
+	createStore
+} from 'vuex'
+import core from './core.js'
+import message from './message.js'
 
-import manager from './manager.js'
-import session from './session.js'
-import logs from './logs.js'
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default createStore({
 	modules: {
-		manager,
-		session,
-		logs
+		core,message
 	}
 })

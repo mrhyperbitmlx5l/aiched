@@ -1,33 +1,39 @@
 <template>
-		<div
-			class="window animated"
-			:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized ,  bounceIn:this.animatedIn ,zoomOut:this.animatedOut}"
-			v-show="!setting.hidden"
-			:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px','z-index':setting.index }"
-			@mousedown="onFocus(setting.id)"
-		>
-			<header class="window-title" @mousedown.self="onMousedown($event)">
-				<div class="icon" :class="setting.icon"></div>
-				{{ setting.title }}
-				<div class="window-control">
-					<span class="button min" @mousedown="onMin(setting.id)"></span>
-					<span class="button max" @mousedown="onMax()"></span>
-					<span class="button close" @mousedown="onClose(setting.id)"></span>
-				</div>
-			</header>
-			<div class="window-body" :ref="'window_' + setting.id" >
-				<keep-alive><component v-bind:is="subComponent" :window.sync="window"></component></keep-alive>
+	<div
+		class="window animated"
+		:class="{ focus: setting.focus, animating: this.animating, maximized: this.maximized, bounceIn: this.animatedIn, zoomOut: this.animatedOut }"
+		v-show="!setting.min"
+		:style="{ top: position.y + 'px', left: position.x + 'px', width: width + 'px', height: height + 'px', 'z-index': setting.index }"
+		@mousedown="onFocus(setting.id)"
+	>
+		<header class="window-title" @mousedown.self="onMousedown($event)" @dblclick.self="onMax()">
+			<div class="icon" :class="setting.icon"></div>
+			{{ setting.title }}
+			<div class="window-control">
+				<span class="button min" @mousedown="onMin(setting.id)"></span>
+				<span class="button max" @mousedown="onMax()"></span>
+				<span class="button close" @mousedown="onClose(setting.id)"></span>
 			</div>
-			<div class="resize-overlay" v-show="overlayShow"></div>
-			<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown.self="onResize(value)"></div>
+		</header>
+		<div class="window-body" :ref="'window_' + setting.id">
+			<keep-alive><component :is="subComponent" v-model:window="window"></component></keep-alive>
 		</div>
+		<div class="resize-overlay" v-show="overlayShow"></div>
+		<div class="resize-side" v-for="(value, index) in resizeSide" :key="index" v-show="resizable" :class="value" @mousedown.self="onResize(value)"></div>
+	</div>
 </template>
 
 <script>
-export default {
+import { defineComponent,defineAsyncComponent,markRaw } from 'vue'
+export default defineComponent( {
 	name: 'Window',
 	props: {
-		setting: Object
+		setting: {
+			id:String,
+			focus:Boolean,
+			hidden:Boolean,
+			index:Number
+		}
 	},
 	data() {
 		return {
@@ -39,8 +45,8 @@ export default {
 			height: 400,
 			maximized: false,
 			animating: false,
-			animatedIn:false,
-			animatedOut:false,
+			animatedIn: false,
+			animatedOut: false,
 			resizable: true,
 			position: {
 				x: 0,
@@ -63,33 +69,33 @@ export default {
 		this.height = this.setting.height > 0 ? this.setting.height : w / 3;
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
-		this.animatedIn = true
-		//console.log("created====>")
-		this.subComponent = () => import('../applications/' + this.setting.page + '.vue');
+		this.animatedIn = true;
+		//console.log("created====>" +  this.setting.page)
+		this.subComponent = markRaw(defineAsyncComponent(() => import('../applications/' + this.setting.page + '.vue')));
 	},
 	mounted() {
 		//console.log("mounted====>")
-		this.animatedIn = true
+		this.animatedIn = true;
 		clearTimeout(this.timer);
 		this.timer = setTimeout(() => {
 			clearTimeout(this.timer);
-			this.animatedIn = false
-		},400)
+			this.animatedIn = false;
+		}, 400);
 	},
 	methods: {
 		onFocus(id) {
-			this.$store.dispatch('manager/focusTask', id);
+			this.$store.dispatch('core/focus', id);
 		},
 		onClose(id) {
 			this.animatedOut = true
 			clearTimeout(this.timer);
 			this.timer = setTimeout(() => {
 				clearTimeout(this.timer);
-				this.$store.dispatch('manager/closeTask', id);
+				this.$store.dispatch('core/close', id);
 			},300)
 		},
 		onMin(id) {
-			this.$store.dispatch('manager/minTask', id);
+			this.$store.dispatch('core/minOrShow', id);
 		},
 		onMax() {
 			if (this.maximized && this.oldPosition) {
@@ -170,21 +176,22 @@ export default {
 				this.drag = true;
 				document.onmousemove = e => {
 					if (this.drag) {
-						let mx = document.body.clientWidth;
-						let my = document.body.clientHeight * 0.95;
+						//let mx = document.body.clientWidth;
+						//let my = document.body.clientHeight * 0.95;
 						this.position.x = e.clientX - w;
 						this.position.y = e.clientY - h;
-						this.position.x = this.position.x <= 0 ? 0 : this.position.x + this.width >= mx ? mx - this.width : this.position.x;
-						this.position.y = this.position.y <= 0 ? 0 : this.position.y + this.height >= my ? my - this.height : this.position.y;
+						//this.position.x = this.position.x <= 0 ? 0 : this.position.x + this.width >= mx ? mx - this.width : this.position.x;
+						//this.position.y = this.position.y <= 0 ? 0 : this.position.y + this.height >= my ? my - this.height : this.position.y;
 					}
 				};
 				document.onmouseup = () => {
+					//console.log("e===>" + this.drag)
 					this.drag = false;
 				};
 			}
 		}
 	}
-};
+});
 </script>
 
 <style lang="less" rel="stylesheet/less">
@@ -202,10 +209,10 @@ export default {
 	.window-body {
 		background: #f9f9f9;
 		right: 0;
-		bottom:0;
+		bottom: 0;
 		left: 0;
-		position:absolute;  
-		top: @titleHeight;  
+		position: absolute;
+		top: @titleHeight;
 		width: 100%;
 	}
 
@@ -254,8 +261,8 @@ export default {
 				position: absolute;
 				height: @w;
 				width: @w;
-				left: (@titleHeight - 2 * @margin - @w) /2 - @diff + @left;
-				top: (@titleHeight - 2 * @margin - @w) /2 + @diff + @top;
+				left: ((@titleHeight - 2 * @margin - @w) ./ 2)- @diff + @left;
+				top: ((@titleHeight - 2 * @margin - @w) ./ 2) + @diff + @top;
 				border: @b solid #fff;
 				border-top-width: 2 * @b;
 			}
@@ -267,8 +274,8 @@ export default {
 				position: absolute;
 				height: @w;
 				width: @w;
-				left: (@titleHeight - 2 * @margin - @w) /2 + @diff + @left;
-				top: (@titleHeight - 2 * @margin - @w) /2 - @diff + @top;
+				left: ((@titleHeight - 2 * @margin - @w) ./ 2) + @diff + @left;
+				top: ((@titleHeight - 2 * @margin - @w) ./ 2)- @diff + @top;
 				border: @b solid #fff;
 				border-top-width: 2 * @b;
 			}
@@ -302,8 +309,8 @@ export default {
 				position: absolute;
 				height: @h;
 				width: @w;
-				left: (@titleHeight - 2 * @margin - @w) /2;
-				bottom: ((@titleHeight - 2 * @margin - @h) /2) - 4px;
+				left: (@titleHeight - 2 * @margin - @w) ./ 2;
+				bottom: ((@titleHeight - 2 * @margin - @h) ./ 2) - 4px;
 				background: #fff;
 			}
 		}
@@ -318,8 +325,8 @@ export default {
 				position: absolute;
 				height: @w;
 				width: @w;
-				left: (@titleHeight - 2 * @margin - @w) /2;
-				top: (@titleHeight - 2 * @margin - @w) /2;
+				left: ((@titleHeight - 2 * @margin - @w) / 2);
+				top: ((@titleHeight - 2 * @margin - @w) / 2);
 				border: @b solid #fff;
 				border-top-width: 2 * @b;
 			}
@@ -341,8 +348,8 @@ export default {
 				position: absolute;
 				height: @h;
 				width: @w;
-				left: (@titleHeight - 2 * @margin - @w) /2;
-				top: (@titleHeight - 2 * @margin - @h) /2;
+				left: ((@titleHeight - 2 * @margin - @w) / 2);
+				top: ((@titleHeight - 2 * @margin - @h) / 2);
 				background: #fff;
 				.Rotate(45deg);
 			}
@@ -392,7 +399,7 @@ export default {
 		height: @reactionWidth;
 		cursor: n-resize;
 	}
-	.angle-bottom-right{
+	.angle-bottom-right {
 		right: 0;
 		bottom: 0;
 		width: @reactionWidth*2;

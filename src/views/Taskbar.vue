@@ -1,8 +1,9 @@
 <template>
+	<div class="application-section scope"><window v-for="app in apps" :key="app.id" :setting="app"></window></div>
 	<div class="taskbar-section scope">
 		<div class="dog-start">
 			<div class="dog-icons" @click="onStart">
-				<a href="#"><i class="fa fa-magic"></i></a>
+				<a href="#"><i class="fa fa-futbol-o"></i></a>
 			</div>
 		</div>
 		<div class="task-list">
@@ -11,11 +12,15 @@
 				{{ task.title }}
 			</div>
 		</div>
+		<div class="dog-tool">
+			<div class="dog-task-icon"><i class="fa fa-television" aria-hidden="true"></i></div>
+			<div class="dog-task-icon" @click="onSidebar"><i class="fa fa-commenting-o" aria-hidden="true"></i></div>
+		</div>
 		<transition enter-active-class="animate zoomIn" leave-active-class="animated bounceOutLeft">
 			<div class="dog-menu" v-show="showmenu">
 				<div class="dog-menu-list">
 					<ul>
-						<li>列表</li>
+						<li>应用列表</li>
 						<li v-for="item in menulist" :key="item.id">
 							<div class="menu-item" @click="onClickItem(item)">
 								<i class="icon" :class="item.icon"></i>
@@ -34,21 +39,28 @@
 				</div>
 				<div class="dog-menu-links">
 					<ul>
-						<li><a href="#" @click="onLink('0000')"><span>帮助</span></a></li>
+						<li><a href="#" @click="onLink('0000')"><span>使用帮助</span></a></li>
 						<li><a href="#" @click="onLink('0001')"><span>壁纸</span></a></li>
+						<li><a href="#" @click="onLink('0002')"><span>计算器</span></a></li>
+						<li><a href="#" @click="onLockScreen()"><span>锁屏</span></a></li>
 					</ul>
 				</div>
 			</div>
 		</transition>
 	</div>
 </template>
+
 <script>
-import REGISTER from '../register/index.js';
+import Window from './Window.vue';
+import REGISTER from '../register/index.js'
 export default {
-	name: 'Taskbar',
+	components: {
+		Window
+	},
 	data() {
 		return {
-			menulist: []
+			menulist: [],
+			setting: {}
 		};
 	},
 	created() {
@@ -72,46 +84,72 @@ export default {
 		});
 	},
 	computed: {
+		apps() {
+			let apps = [];
+			if (this.$store.state.core.tasks.length > 0) {
+				this.$store.state.core.tasks.forEach(app => {
+					if (app != null) {
+						apps.push(app);
+					}
+				});
+				return apps.sort((a, b) => {
+					return a.date - b.date;
+				});
+			} else {
+				return [];
+			}
+		},
 		tasklist() {
 			let tasks = [];
-			this.$store.state.manager.tasklist.forEach(task => {
+			this.$store.state.core.tasks.forEach((task,index) => {
 				if (task != null) {
+					if(index == 0 && task.min == false){
+						task.focus = true
+					} else {
+						task.focus = false
+					}
 					tasks.push(task);
 				}
 			});
 			return tasks.sort((a,b)=>{return a.date-b.date});
 		},
 		itemWidth() {
-			if (this.$store.state.manager.tasklist.length < 5) {
+			if (this.$store.state.core.tasks.length < 5) {
 				return 100;
 			} else {
 				let ww = document.body.clientWidth * 0.95;
-				return Math.floor(ww / this.$store.state.manager.tasklist.length);
+				return Math.floor(ww / this.$store.state.core.tasks.length);
 			}
 		},
 		showmenu() {
-			return this.$store.state.manager.startMenu;
+			return this.$store.state.core.startMenu;
 		}
 	},
-	methods: {
+	methods:{
 		onClickItem(object) {
 			//console.log('object====>' + JSON.stringify(object));
 			if (object.sublist) {
 				object.subhidden = !object.subhidden;
 			} else {
-				this.$store.dispatch('manager/openTask', object.id);
-				this.$store.commit('manager/selectIcon', '');
+				this.$store.dispatch('core/openApp', object.id);
+				this.$store.commit('core/SELECT_ICON', '');
 			}
 		},
 		onLink(id){
-			this.$store.dispatch('manager/openTask', id);
-			this.$store.commit('manager/selectIcon', '');
+			this.$store.dispatch('core/openApp', id);
+			this.$store.commit('core/SELECT_ICON', '');
 		},
 		onClick(id) {
-			this.$store.dispatch('manager/showOrhidden', id);
+			this.$store.dispatch('core/minSwitch', id);
 		},
 		onStart() {
-			this.$store.commit('manager/openStartMenu');
+			this.$store.commit('core/OPEN_START_MENU');
+		},
+		onSidebar(){
+			this.$store.dispatch('core/sidebarSwitch');
+		},
+		onLockScreen(){
+			//this.$store.dispatch('session/lockScreen');
 		}
 	}
 };
@@ -120,12 +158,6 @@ export default {
 <style lang="less">
 @import '../global.less';
 
-.dog-start {
-	width: 8%;
-	margin: 0 auto;
-	float: left;
-	height: @taskHeight;
-}
 .taskbar-section {
 	width: 100%;
 	height: @taskHeight;
@@ -137,13 +169,38 @@ export default {
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
+.dog-start {
+	min-width: 60px;
+	margin: 0 auto;
+	float: left;
+	height: @taskHeight;
+}
+
+.dog-tool {
+	min-width: 40px; 
+	margin: 0 auto;
+	float:right;
+	//border-left: 2px double #333333;
+	height: @taskHeight;
+	text-align: center;
+}
+
+.dog-task-icon {
+	height: 100%;
+	padding: 10px 10px;
+	display:inline-block;
+}
+.dog-task-icon:hover{
+	background-color: #cfe3fd;
+}
 .task-list {	
-	width: 92%;
-	float: right;
+	min-width: 80%;//calc(100% - 100px);
+	float: left;
 	overflow: hidden;
-	border-left: 2px double #333333;
+	//border-left: 2px double #333333;
 	height: @taskHeight;
 	cursor: default;
+	
 	.task-item {
 		float: left;
 		height: @taskHeight;
@@ -246,7 +303,7 @@ export default {
 	border: solid 1px #102a3e;
 	overflow: visible;
 	display: inline-block;
-	min-width: 400px;
+	min-width: 450px;
 	//margin: 60px 0 0 20px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -355,3 +412,4 @@ export default {
 	}
 }
 </style>
+
