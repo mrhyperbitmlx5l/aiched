@@ -47,13 +47,13 @@ export default {
 			console.log('onMousedown==========>' + event);
 		},
 		onContextmenu(event) {
-			this.$store.commit('manager/setContextMenu', {"x":event.clientX,"y":event.clientY,"type":"icon",'data':this.item.id})
+			this.$store.commit('core/SET_CONTEXT_MENU', {"x":event.clientX,"y":event.clientY,"type":"icon",'data':this.item.id})
 		},
 		onClick() {
-			this.$store.dispatch('manager/selectIcon',this.item.id)
+			this.$store.dispatch('core/selectIcon',this.item.id)
 		},
 		onDblclick() {
-			this.$store.dispatch('manager/openTask',this.item.id)
+			this.$store.dispatch('core/openApp',this.item.id)
 		},
 		onDragstart() {},
 		onDragend() {}
@@ -99,6 +99,7 @@ export default {
 			word-break: break-all;
 			text-overflow: ellipsis;
 			padding-bottom: 5px;
+			color: #FFFFFF;
 		}
 	}
 }

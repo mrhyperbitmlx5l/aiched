@@ -15,7 +15,7 @@
 					:class="{ disabled: item.disabled, divide: item.type == 'divide', 'list-item': item.type !== 'divide' }"
 					@click="onClick(item)"
 				>
-					{{ item.text }}
+					<i v-show="item.type!='divide'" class="fa" :class="item.icon" aria-hidden="true"></i>{{ item.text }}
 				</li>
 			</ul>
 		</div>
@@ -32,26 +32,29 @@ export default {
 					text: '打开',
 					type: 'default',
 					disabled: false,
-					action: 'manager/openTask'
+					icon:'fa-magic',
+					action: 'core/openTask'
 				},
 				{
 					type: 'divide'
 				},
 				{
 					id: '2',
-					text: '帮助',
+					text: '使用帮助',
 					type: 'default',
 					disabled: false,
-					action: 'manager/help'
+					icon:'fa-android',
+					action: 'core/help'
 				}
 			],
 			wall: [
 				{
 					id: '1',
-					text: '帮助',
+					text: '使用帮助',
 					type: 'default',
 					disabled: false,
-					action: 'manager/help'
+					icon:'',
+					action: 'core/help'
 				},
 				{
 					type: 'divide'
@@ -60,6 +63,7 @@ export default {
 					id: '2',
 					text: '锁屏',
 					type: 'default',
+					icon:'fa-lock',
 					disabled: false,
 					action: 'session/lockScreen'
 				},
@@ -67,22 +71,23 @@ export default {
 					id: '3',
 					text: '壁纸设置',
 					type: 'default',
+					icon:'fa-cog',
 					disabled: false,
-					action: 'manager/display'
+					action: 'core/display'
 				}
 			]
 		};
 	},
 	computed: {
 		list() {
-			if (this.$store.state.manager.contextMenu.type==='wall') {
+			if (this.$store.state.core.contextMenu.type==='wall') {
 				return this.wall;
 			} else {
 				return this.icon;
 			}
 		},
 		position() {
-			return this.$store.state.manager.contextMenu;
+			return this.$store.state.core.contextMenu;
 		},
 		isShow() {
 			return this.position.x > 0 && this.position.y > 0;
@@ -90,9 +95,9 @@ export default {
 	},
 	methods: {
 		onClick(item) {
-			let date = this.$store.state.manager.contextMenu.data
+			let date = this.$store.state.core.contextMenu.data
 			this.$store.dispatch(item.action, date);
-			this.$store.commit('manager/cleanContextMenu');
+			this.$store.commit('core/CLEAN_CONTEXT_MENU');
 		}
 	}
 };

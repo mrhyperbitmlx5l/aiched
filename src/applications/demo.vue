@@ -1,106 +1,57 @@
 <template>
-	<div>
-	<a-table :columns="columns" :data-source="data">
-		<a slot="name" slot-scope="text">{{ text }}</a>
-		<span slot="customTitle">
-			<a-icon type="smile-o" />
-			Name
-		</span>
-		<span slot="tags" slot-scope="tags">
-			<a-tag v-for="tag in tags" :key="tag" :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'">{{ tag.toUpperCase() }}</a-tag>
-		</span>
-		<span slot="action" slot-scope="text, record">
-			<a>Invite 一 {{ record.name }}</a>
-			<a-divider type="vertical" />
-			<a>Delete</a>
-			<a-divider type="vertical" />
-			<a class="ant-dropdown-link">
-				More actions
-				<a-icon type="down" />
-			</a>
-		</span>
-	</a-table>
-	<a-button type="primary" @click="showModal">Open Modal with customized footer</a-button>
-	<Dialog v-model="visible" icon="call" title="模态对话框" :inside="true" width="500" @onOk="onOk">
-		<div>模态对话框</div>
-		<div>模态对话框</div>
-		<div>模态对话框</div>
-	</Dialog>
-	</div>
+	<div class="gutter-example"><a-table :dataSource="dataSource" :columns="columns" bordered /></div>
 </template>
 <script>
-const columns = [
-	{
-		dataIndex: 'name',
-		key: 'name',
-		slots: { title: 'customTitle' },
-		scopedSlots: { customRender: 'name' }
-	},
-	{
-		title: 'Age',
-		dataIndex: 'age',
-		key: 'age'
-	},
-	{
-		title: 'Address',
-		dataIndex: 'address',
-		key: 'address'
-	},
-	{
-		title: 'Tags',
-		key: 'tags',
-		dataIndex: 'tags',
-		scopedSlots: { customRender: 'tags' }
-	},
-	{
-		title: 'Action',
-		key: 'action',
-		scopedSlots: { customRender: 'action' }
-	}
-];
-
-const data = [
-	{
-		key: '1',
-		name: 'John Brown',
-		age: 32,
-		address: 'New York No. 1 Lake Park',
-		tags: ['nice', 'developer']
-	},
-	{
-		key: '2',
-		name: 'Jim Green',
-		age: 42,
-		address: 'London No. 1 Lake Park',
-		tags: ['loser']
-	},
-	{
-		key: '3',
-		name: 'Joe Black',
-		age: 32,
-		address: 'Sidney No. 1 Lake Park',
-		tags: ['cool', 'teacher']
-	}
-];
-import Dialog from '@/views/DialogModal';
 export default {
-	components: {
-		Dialog
-	},
-	data() {
+	setup() {
 		return {
-			drawerWidth: '500px',
-			display: false,
-			loading: false,
-			visible: false,
-			data,
-			columns
+			dataSource: [
+				{
+					key: '1',
+					name: '胡彦斌',
+					age: 32,
+					address: '西湖区湖底公园1号'
+				},
+				{
+					key: '2',
+					name: '胡彦祖',
+					age: 42,
+					address: '西湖区湖底公园1号'
+				}
+			],
+
+			columns: [
+				{
+					title: '姓名',
+					dataIndex: 'name',
+					key: 'name'
+				},
+				{
+					title: '年龄',
+					dataIndex: 'age',
+					key: 'age'
+				},
+				{
+					title: '住址',
+					dataIndex: 'address',
+					key: 'address'
+				}
+			]
 		};
-	},
-	methods: {
-		showModal() {
-			this.visible = true;
-		}
 	}
 };
 </script>
+
+<style>
+.gutter-example {
+	padding: 10px 10px;
+}
+.gutter-example :deep(.ant-row > div) {
+	background: transparent;
+	border: 0;
+}
+.gutter-box {
+	background: #00a0e9;
+	padding: 5px 0;
+}
+</style>

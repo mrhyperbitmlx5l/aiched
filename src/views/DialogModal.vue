@@ -4,7 +4,7 @@
 		<transition enter-active-class="animated zoomIn" leave-active-class="animated zoomOut" @after-leave="onAfter" @after-appear="onBefore" >
 			<div
 				class="dialog-modal"
-				v-show="visualStatus"
+				v-show="display"
 				:class="{'inside': this.inside}"
 				:style="{  width: this.width + 'px' }"
 			>
@@ -26,19 +26,11 @@
 </template>
 
 <script>
-export default {
+import {defineComponent} from "vue"
+export default defineComponent ({
 	name: 'DialogModal',
-	model: {
-		prop: 'visualStatus',
-		event: 'onVisualStatus'
-	},
-	data(){
-		return {
-			
-		}
-	},
 	props: {
-		visualStatus: { type: Boolean, default: false },
+		display: { type: Boolean, default: false },
 		title: { type: String, default: '' },
 		icon: { type: String, default: '' },
 		width: { type: String, default: '400' },
@@ -57,8 +49,8 @@ export default {
 	computed: {
 		modalClass() {
 			return {
-				'modal-hidden': !this.visualStatus,
-				'modal-show': this.visualStatus,
+				'modal-hidden': !this.display,
+				'modal-show': this.display,
 				'inside': this.inside
 			};
 		}
@@ -66,14 +58,14 @@ export default {
 	created() {},
 	methods: {
 		onClose() {
-			
-			this.$emit('onVisualStatus', false);
+			this.$emit('update:display', false);
 			this.$emit('onClose');
-						
+			//console.log("onClose========>")
 		},
 		onOk() {
-			this.$emit('onVisualStatus', false);
-			this.$emit('onOk');
+			this.$emit('update:display', false);
+			//this.$emit('onOk');
+			//console.log("onOk========>")
 		},
 		onBefore() {
 			//this.maskStatus = true;
@@ -82,7 +74,7 @@ export default {
 			
 		}
 	}
-};
+})
 </script>
 
 <style lang="less" rel="stylesheet/less">
@@ -109,9 +101,11 @@ export default {
 	}
 
 	.dialog-modal {
-		top:40%;
+		top:50%;
 		left:50%;
-		transform: translate(-50%);
+		-ms-transform:translate(-50%,-50%); /* IE 9 */
+		-webkit-transform:translate(-50%,-50%); /* Safari and Chrome */
+		transform: translate(-50%,-50%);
 		position: fixed;
 		border-radius: 5px;
 		overflow: hidden;
@@ -189,8 +183,8 @@ export default {
 					position: absolute;
 					height: @h;
 					width: @w;
-					left: (@titleHeight - 2 * @margin - @w) /2;
-					top: (@titleHeight - 2 * @margin - @h) /2;
+					left: ((@titleHeight - 2 * @margin - @w) ./ 2);
+					top: ((@titleHeight - 2 * @margin - @h) ./ 2);
 					background: #fff;
 					.Rotate(45deg);
 				}

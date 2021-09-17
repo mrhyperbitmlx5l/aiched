@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import * as utils from '@/utils/index'
+import helper from '@/utils/helper'
 export default {
 	name: 'Display',
 	data() {
@@ -21,12 +21,12 @@ export default {
 				{ url: './wall/wall-4.jpg', selected: false },
 				{ url: './wall/wall-5.jpg', selected: false }
 			],
-			preview: utils.getLocalstorage('wallpaper',"")
+			preview: helper.getLocalstorage('wallpaper',"")
 		};
 	},
 	computed: {
 		wallpaper() {
-			return this.$store.state.manager.wallpaper;
+			return this.$store.state.core.wallpaper;
 		}
 	},
 	created() {
@@ -44,8 +44,9 @@ export default {
 		},
 		onSelect(url){
 			this.preview = url
-			this.$store.commit('manager/setWallpaper',url);
+			this.$store.commit('core/SET_WALLPAPER',url);
 			this.selectwallpaper()
+			this.$store.commit('message/PUSH_MESSAGE', {'type':'notification','content':'切换成功1111111111111111111111111111111111111111111111111111111111111111','title':'更换壁纸'})
 		}
 	}
 };

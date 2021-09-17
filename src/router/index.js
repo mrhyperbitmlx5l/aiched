@@ -1,51 +1,34 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Desktop from '../views/Desktop.vue'
-import * as utils from '@/utils/index'
+import {
+	createRouter,
+	createWebHashHistory
+} from 'vue-router'
+import store from '@/store';
 
-//import store from '@/store'
-
-Vue.use(Router)
-const router = new Router({
-	//mode: 'history',
-	base: process.env.BASE_URL,
-	routes: [{
-			path: '/',
-			name: '/',
-			redirect: '/desktop'
-		},
-		{
-			path: '/desktop',
-			name: 'Desktop',
-			component: Desktop
-		},
-		{
-			path: '/login',
-			name: 'LockScreen',
-			component: () => import( /* webpackChunkName: "about" */ '../views/LockScreen.vue')
-		}
-	]
-})
-
-const whiteList = ['/login'] //
-
-router.beforeEach((to, from, next) => {
-	if (to.name) {
-		document.title = to.name
+const routes = [{
+		path: '/',
+		meta: {title: store.state.core.name},
+		component: () => import('../views/Desktop.vue')
+	},
+	{
+		path: '/desktop',
+		meta: {title: store.state.core.name},
+		component: () => import('../views/Desktop.vue')
+	},
+	{
+		path: '/login',
+		meta: {title: store.state.core.name},
+		component: () => import('../views/LockScreen.vue')
+	},
+	{
+		path: '/test',
+		meta: {title: store.state.core.name},
+		component: () => import('../views/Desktop.vue')
 	}
-	//store.commit('app/setRouteLoading', true)
-	let token = utils.getToken()
-	//console.log('token=>' + token + '    to=>' +to.path)
-	if (token.length > 0 || whiteList.indexOf(to.path) !== -1) { // 无会话，不是白名单
-		next()
-	} else {
-		next(`/login`)
-	}
-})
+]
 
-router.afterEach(() => {
-	//store.commit('app/setRouteLoading', false)
+const router = createRouter({
+	history: createWebHashHistory(),
+	routes
 })
-
 
 export default router
