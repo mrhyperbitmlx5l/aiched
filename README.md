@@ -1,6 +1,5 @@
 # dog-star
 
-<<<<<<< HEAD
 天狼星 基于 VUE 框架的模拟Windows 桌面效果，后台管理UI。
 [预览](https://ispace-code.gitee.io/dogstar-ui)
 
@@ -11,8 +10,8 @@
 
 加入了模态对话框和抽屉效果。在窗口和桌面均可使用。
 
-=======
->>>>>>> develop
+更新支持 Vue 3.0
+
 ## Project setup
 ```
 npm install
