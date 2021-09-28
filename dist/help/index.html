@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="help/vue.css" />
+	</head>
+	<body>
+		<div data-app id="main">Please wait...</div>
+		<script>
+			window.$docsify = {
+				themeColor: '#990066',
+				el: '#main',
+				homepage: 'home.md',
+				notFoundPage: true,
+				loadNavbar: '_navbar.md',
+				loadSidebar: '_sidebar.md',
+				alias: {
+					'/.*/_navbar.md': '/_navbar.md',
+				},
+				subMaxLevel: 4, //
+				repo: ''
+			}
+		</script>
+		<script src="help/docsify.min.js"></script>
+	</body>
+</html>
