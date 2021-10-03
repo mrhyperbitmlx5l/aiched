@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "animate.css": "^3.5.0",
-    "ant-design-vue": "^2.1.6",
-    "core-js": "^3.12.1",
-    "less": "^4.1.1",
+    "ant-design-vue": "^2.2.8",
+    "core-js": "^3.19.0",
+    "less": "^4.1.2",
     "less-loader": "^7.3.0",
     "moment": "^2.29.1",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.8",
-    "vuex": "^4.0.0-0"
+    "vue": "^3.2.20",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -24,10 +24,10 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/compiler-sfc": "^3.2.20",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0",
+    "eslint-plugin-vue": "^7.20.0",
     "font-awesome": "^4.7.0"
   },
   "eslintConfig": {
