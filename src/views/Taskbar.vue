@@ -167,6 +167,7 @@ export default {
 	top: auto !important;
 	left: 0;
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+	z-index: 999;
 }
 
 .dog-start {

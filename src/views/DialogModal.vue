@@ -120,7 +120,7 @@ export default defineComponent ({
 			right: 0;
 			bottom: 40px;
 			left: 0;
-			top: @titleHeight;
+			top: @windowTitleHeight;
 			width: 100%;
 		}
 
@@ -138,8 +138,8 @@ export default defineComponent ({
 			color: #333;
 			//.Filter(saturate(1.2));
 			text-align: center;
-			line-height: @titleHeight;
-			height: @titleHeight;
+			line-height: @windowTitleHeight;
+			height: @windowTitleHeight;
 			cursor: default;
 			.icon {
 				position: absolute;
@@ -156,12 +156,12 @@ export default defineComponent ({
 			position: absolute;
 			right: 0;
 			top: 0;
-			height: @titleHeight;
+			height: @windowTitleHeight;
 			.button {
 				display: block;
 				position: relative;
-				width: @titleHeight - 2 * @margin;
-				height: @titleHeight - 2 * @margin;
+				width: @windowTitleHeight - 2 * @margin;
+				height: @windowTitleHeight - 2 * @margin;
 				margin: @margin @margin 0 0;
 				float: left;
 				border-radius: 3px;
@@ -183,8 +183,8 @@ export default defineComponent ({
 					position: absolute;
 					height: @h;
 					width: @w;
-					left: ((@titleHeight - 2 * @margin - @w) ./ 2);
-					top: ((@titleHeight - 2 * @margin - @h) ./ 2);
+					left: ((@windowTitleHeight - 2 * @margin - @w) ./ 2);
+					top: ((@windowTitleHeight - 2 * @margin - @h) ./ 2);
 					background: #fff;
 					.Rotate(45deg);
 				}

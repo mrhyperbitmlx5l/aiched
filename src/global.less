@@ -1,7 +1,8 @@
 @blue: #4b8de4;
-@primary-color: #4b8de4;
-@primary-2: #aaffff;
-@primary-3: #55ffff;
+
+@themeColor:rgb(85, 170, 127);
+@themeColor2:rgb(255, 250, 232);
+@themeColor3:rgb(85, 255, 255);
 
 .Filter(@val){
   -webkit-filter: @val;
@@ -10,6 +11,8 @@
   -ms-filter: @val;
 }
 
-@titleHeight: 30px;/**标题栏高度**/
+@windowTitleHeight: 30px;/**标题栏高度**/
+@windowTitleColor: fadeout(@themeColor2,50%);
+@windowTitleColorFocus: fadeout(@themeColor,10%);
 @taskHeight: 40px;/**任务栏高度**/
-@taskbackground: rgba(255,255,255,0.4); //#f9f9f9;/**任务栏颜色**/
+@taskbackground: fadeout(@themeColor, 10%); //#f9f9f9;/**任务栏颜色**/

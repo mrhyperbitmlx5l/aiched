@@ -212,16 +212,16 @@ export default defineComponent( {
 		bottom: 0;
 		left: 0;
 		position: absolute;
-		top: @titleHeight;
+		top: @windowTitleHeight;
 		width: 100%;
 	}
 
 	.window-title {
 		width: 100%;
-		background: rgba(255, 255, 230, 0.8);
+		background: @windowTitleColor;
 		text-align: center;
-		line-height: @titleHeight;
-		height: @titleHeight;
+		line-height: @windowTitleHeight;
+		height: @windowTitleHeight;
 
 		cursor: default;
 		color: #aaa;
@@ -239,7 +239,7 @@ export default defineComponent( {
 		box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
 		.window-title {
 			//background: #f5f8ff;
-			background: rgba(255, 255, 255, 0.4);
+			background: @windowTitleColorFocus;
 			color: #333;
 		}
 		z-index: 200;
@@ -261,8 +261,8 @@ export default defineComponent( {
 				position: absolute;
 				height: @w;
 				width: @w;
-				left: ((@titleHeight - 2 * @margin - @w) ./ 2)- @diff + @left;
-				top: ((@titleHeight - 2 * @margin - @w) ./ 2) + @diff + @top;
+				left: ((@windowTitleHeight - 2 * @margin - @w) ./ 2)- @diff + @left;
+				top: ((@windowTitleHeight - 2 * @margin - @w) ./ 2) + @diff + @top;
 				border: @b solid #fff;
 				border-top-width: 2 * @b;
 			}
@@ -274,8 +274,8 @@ export default defineComponent( {
 				position: absolute;
 				height: @w;
 				width: @w;
-				left: ((@titleHeight - 2 * @margin - @w) ./ 2) + @diff + @left;
-				top: ((@titleHeight - 2 * @margin - @w) ./ 2)- @diff + @top;
+				left: ((@windowTitleHeight - 2 * @margin - @w) ./ 2) + @diff + @left;
+				top: ((@windowTitleHeight - 2 * @margin - @w) ./ 2)- @diff + @top;
 				border: @b solid #fff;
 				border-top-width: 2 * @b;
 			}
@@ -287,12 +287,12 @@ export default defineComponent( {
 		position: absolute;
 		right: 0;
 		top: 0;
-		height: @titleHeight;
+		height: @windowTitleHeight;
 		.button {
 			display: block;
 			position: relative;
-			width: @titleHeight - 2 * @margin;
-			height: @titleHeight - 2 * @margin;
+			width: @windowTitleHeight - 2 * @margin;
+			height: @windowTitleHeight - 2 * @margin;
 			margin: @margin @margin 0 0;
 			float: left;
 			border-radius: 3px;
@@ -309,8 +309,8 @@ export default defineComponent( {
 				position: absolute;
 				height: @h;
 				width: @w;
-				left: (@titleHeight - 2 * @margin - @w) ./ 2;
-				bottom: ((@titleHeight - 2 * @margin - @h) ./ 2) - 4px;
+				left: (@windowTitleHeight - 2 * @margin - @w) ./ 2;
+				bottom: ((@windowTitleHeight - 2 * @margin - @h) ./ 2) - 4px;
 				background: #fff;
 			}
 		}
@@ -325,8 +325,8 @@ export default defineComponent( {
 				position: absolute;
 				height: @w;
 				width: @w;
-				left: ((@titleHeight - 2 * @margin - @w) / 2);
-				top: ((@titleHeight - 2 * @margin - @w) / 2);
+				left: ((@windowTitleHeight - 2 * @margin - @w) / 2);
+				top: ((@windowTitleHeight - 2 * @margin - @w) / 2);
 				border: @b solid #fff;
 				border-top-width: 2 * @b;
 			}
@@ -348,8 +348,8 @@ export default defineComponent( {
 				position: absolute;
 				height: @h;
 				width: @w;
-				left: ((@titleHeight - 2 * @margin - @w) / 2);
-				top: ((@titleHeight - 2 * @margin - @h) / 2);
+				left: ((@windowTitleHeight - 2 * @margin - @w) / 2);
+				top: ((@windowTitleHeight - 2 * @margin - @h) / 2);
 				background: #fff;
 				.Rotate(45deg);
 			}
