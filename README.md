@@ -12,6 +12,8 @@
 
 更新支持 Vue 3.0
 
+20211028 加入主题颜色设置
+
 ## Project setup
 ```
 npm install
