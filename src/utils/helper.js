@@ -1,3 +1,7 @@
+import Cookies from 'js-cookie'
+
+const COOKIES_KEY = 'DOG_START_SESSION_KEY'
+
 export default {
 	ObjectIsNull: function(object) {
 		if (!object && typeof(object) != 'undefined' && object != 0) {
@@ -83,6 +87,24 @@ export default {
 			return false
 		}
 		storage.removeItem(key)
-	}
-
+	},
+	
+	getToken: function() {
+		let token = Cookies.get(COOKIES_KEY)
+		if (token === undefined) {
+			return ''
+		}
+		return token
+	},
+	
+	setToken: function(token) {
+		var d = new Date();
+		d.setTime(d.getTime() + 4000)
+		return Cookies.set(COOKIES_KEY, token , { expires: d })
+	},
+	
+	removeToken: function() {
+		return Cookies.remove(COOKIES_KEY)
+	},
+	
 }

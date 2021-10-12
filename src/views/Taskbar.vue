@@ -149,7 +149,7 @@ export default {
 			this.$store.dispatch('core/sidebarSwitch');
 		},
 		onLockScreen(){
-			//this.$store.dispatch('session/lockScreen');
+			this.$store.dispatch('session/lockScreen');
 		}
 	}
 };

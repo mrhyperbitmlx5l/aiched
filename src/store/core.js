@@ -6,7 +6,7 @@ export default  {
 	namespaced: true,
 	
 	state:{
-		name:"XXXXXXXXXXXXXXX",
+		name:"DogStar Windows 桌面 UI",
 		dateFormat: 'YYYY-MM-DD',
 		wallpaper: './wall/wall-1.jpg',
 		startMenu: false,
@@ -24,6 +24,7 @@ export default  {
 		APP_INIT:(state)=> {
 			let wallpaper = helper.getLocalstorage('wallpaper', "")
 			state.wallpaper = wallpaper
+			state.applications = []
 			REGISTER.application.forEach(item => {
 				let app = {}
 				if (item.sublist || item.type === 'folder') {
@@ -60,6 +61,8 @@ export default  {
 				task.title = object.name
 				task.id = object.id
 				task.icon = object.icon
+				task.width = object.width
+				task.height = object.height
 				task.page = helper.ObjectIsNull(object.page) ? "" : object.page
 				task.min = false
 				task.focus = true

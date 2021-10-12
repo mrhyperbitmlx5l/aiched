@@ -11,7 +11,7 @@ const register = {
 		"name": "帮助",
 		"page": "sys/help",
 		"link": true,
-		"width": 500,
+		"width": 600,
 		"height": 400,
 		"icon": "help",
 	},
@@ -29,8 +29,8 @@ const register = {
 			"name": "计算器",
 			"page": "sys/calculator",
 			"link": true,
-			"width": 400,
-			"height": 400,
+			"width": 300,
+			"height": 300,
 			"icon": "calculator",
 		},{
 			"id": "0003",//id
@@ -48,26 +48,32 @@ const register = {
 			"name": "Ant Design Vue Demo",
 			"page": "demo3",
 			"icon": "doller",
+			"width": 500,
+			"height": 500,
 		},
 		{
 			"id": "0007",
 			"name": "对话框抽屉",
 			"page": "demo2",
 			"icon": "folder",
+			"width": 700,
+			"height": 600,
 		},
 		{
 			"id": "0008",
 			"name": "第8",
 			"page": "demo3",
 			"icon": "safari",
+			"width": 800,
+			"height": 600,
 		},
 		{
 			"id": "0009",
 			"name": "日历",
 			"page": "demo4",
 			"icon": "chrome",
-			"width": 1200,
-			"height": 700,
+			"width": 450,
+			"height": 400,
 			"link": true
 		}
 	]
