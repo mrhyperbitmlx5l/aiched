@@ -36,7 +36,8 @@ export default  {
 						app.width = subitem.width > 0 ? subitem.width : 0
 						app.height = subitem.height > 0 ? subitem.height : 0
 						app.page = subitem.page
-						app.link = !helper.ObjectIsNull(subitem.link) ? false : subitem.link
+						app.resizable = helper.ObjectNotNull(subitem.resizable) ? subitem.resizable : true
+						app.link = helper.ObjectNotNull(subitem.link) ? subitem.link :false 
 						app.selected = false
 						state.applications.push(app)
 					})
@@ -47,7 +48,8 @@ export default  {
 					app.width = item.width > 0 ? item.width : 0
 					app.height = item.height > 0 ? item.height : 0
 					app.page = item.page
-					app.link = !helper.ObjectIsNull(item.link) ? false : item.link
+					app.link = helper.ObjectNotNull(item.link) ?  item.link :false 
+					app.resizable = helper.ObjectNotNull(item.resizable) ? item.resizable : true
 					app.selected = false
 					state.applications.push(app)
 				}
@@ -63,7 +65,8 @@ export default  {
 				task.icon = object.icon
 				task.width = object.width
 				task.height = object.height
-				task.page = helper.ObjectIsNull(object.page) ? "" : object.page
+				task.page = helper.ObjectNotNull(object.page) ? object.page : ""
+				task.resizable = helper.ObjectNotNull(object.resizable) ? object.resizable : true
 				task.min = false
 				task.focus = true
 				task.date = new Date()
@@ -136,7 +139,7 @@ export default  {
 			state.wallpaper = url
 		},
 		SWITCH_SIDEBAR(state,flag){
-			if(helper.ObjectIsNull(flag)){
+			if(helper.ObjectNotNull(flag)){
 				state.sidebar = flag
 			} else {
 				state.sidebar = !state.sidebar

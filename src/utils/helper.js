@@ -6,11 +6,16 @@ export default {
 	ObjectIsNull: function(object) {
 		if (!object && typeof(object) != 'undefined' && object != 0) {
 			return false
-		}
+		} 
 		if (typeof(object) == "undefined") {
-			return false //alert("undefined");
+			return true //alert("undefined");
 		}
-		return Object.keys(object).length === 0
+		if(object instanceof Object){
+			return Object.keys(object).length === 0
+		}
+	},
+	ObjectNotNull:function(object) {
+		return !this.ObjectIsNull(object)
 	},
 	StringIsNull: function(str) {
 		return '' === str || str === null

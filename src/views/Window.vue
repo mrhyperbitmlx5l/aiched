@@ -10,8 +10,8 @@
 			<div class="icon" :class="setting.icon"></div>
 			{{ setting.title }}
 			<div class="window-control">
-				<span class="button min" @mousedown="onMin(setting.id)"></span>
-				<span class="button max" @mousedown="onMax()"></span>
+				<span class="button min" @mousedown="onMin(setting.id)" v-show="setting.resizable"></span>
+				<span class="button max" @mousedown="onMax()" v-show="setting.resizable"></span>
 				<span class="button close" @mousedown="onClose(setting.id)"></span>
 			</div>
 		</header>
@@ -67,6 +67,7 @@ export default defineComponent( {
 		let h = document.body.clientHeight;
 		this.width = this.setting.width > 0 ? this.setting.width : w / 2;
 		this.height = this.setting.height > 0 ? this.setting.height : w / 3;
+		this.resizable = this.setting.resizable
 		this.position.x = w / 2 - this.width / 2;
 		this.position.y = (h - this.height) / 2;
 		this.animatedIn = true;

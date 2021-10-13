@@ -6,25 +6,36 @@ const register = {
 	/**标题栏高度 see global.less !!!**/
 	"taskHeight": 40,
 	/**任务栏高度  see global.less !!!**/
-	"application": [{
-		"id": "0000",
-		"name": "帮助",
-		"page": "sys/help",
-		"link": true,
-		"width": 600,
-		"height": 400,
-		"icon": "help",
-	},
-	{
-		"id": "0001",
-		"name": "显示设置",
-		"page": "sys/display",
-		"link": false,
-		"width": 600,
-		"height": 450,
-		"icon": "system",
-	},
-	{
+	"application": [
+		{
+			"id": "0000",
+			"name": "关于",
+			"page": "sys/about",
+			"link": true,
+			"width": 200,
+			"height": 100,
+			"icon": "about",
+			"resizable":false
+		},{
+			"id": "9999",
+			"name": "帮助",
+			"page": "sys/help",
+			"link": true,
+			"width": 600,
+			"height": 400,
+			"icon": "help",
+		},
+		{
+			"id": "0001",
+			"name": "显示设置",
+			"page": "sys/display",
+			"link": false,
+			"width": 600,
+			"height": 450,
+			"icon": "system",
+			"resizable":false
+		},
+		{
 			"id": "0002",
 			"name": "计算器",
 			"page": "sys/calculator",
@@ -32,6 +43,7 @@ const register = {
 			"width": 300,
 			"height": 300,
 			"icon": "calculator",
+			"resizable":false
 		},{
 			"id": "0003",//id
 			"name": "Ant Design Vue DEMO",//title
