@@ -11,9 +11,9 @@ const register = {
 			"id": "0000",
 			"name": "关于",
 			"page": "sys/about",
-			"link": true,
-			"width": 200,
-			"height": 100,
+			"link": false,
+			"width": 300,
+			"height": 150,
 			"icon": "about",
 			"resizable":false
 		},{

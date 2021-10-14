@@ -32,8 +32,8 @@ export default {
 					text: '打开',
 					type: 'default',
 					disabled: false,
-					icon:'fa-magic',
-					action: 'core/openTask'
+					icon:'',
+					action: 'core/openApp'
 				},
 				{
 					type: 'divide'
@@ -43,13 +43,21 @@ export default {
 					text: '使用帮助',
 					type: 'default',
 					disabled: false,
-					icon:'fa-android',
+					icon:'',
 					action: 'core/help'
 				}
 			],
 			wall: [
 				{
 					id: '1',
+					text: '关于',
+					type: 'default',
+					disabled: false,
+					icon:'',
+					action: 'core/about'
+				},
+				{
+					id: '2',
 					text: '使用帮助',
 					type: 'default',
 					disabled: false,
@@ -60,7 +68,7 @@ export default {
 					type: 'divide'
 				},
 				{
-					id: '2',
+					id: '3',
 					text: '锁屏',
 					type: 'default',
 					icon:'fa-lock',
@@ -68,7 +76,7 @@ export default {
 					action: 'session/lockScreen'
 				},
 				{
-					id: '3',
+					id: '4',
 					text: '壁纸设置',
 					type: 'default',
 					icon:'fa-cog',

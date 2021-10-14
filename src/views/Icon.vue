@@ -89,6 +89,9 @@ export default {
 			margin: 0 auto;
 			background-size: 64px;
 		}
+		.icon:active{
+			animation: heartBeat 2s;
+		}
 		.text {
 			min-height: 20px;
 			line-height: 20px;
@@ -100,7 +103,13 @@ export default {
 			text-overflow: ellipsis;
 			padding-bottom: 5px;
 			color: #FFFFFF;
+			text-shadow: 2px 2px 2px #000000;
 		}
+	}
+	
+	.icon-body:hover {
+		/*border:2px solid rgba(43, 115, 199, 0.36);*/
+		background:rgba(43, 115, 199, 0.2);
 	}
 }
 </style>

@@ -181,6 +181,10 @@ export default  {
 			context.commit('APP_SORT_BY_DATE', '0001')
 		},
 		help(context) {
+			context.commit('APP_OPEN', '9999')
+			context.commit('APP_SORT_BY_DATE', '9999')
+		},
+		about(context) {
 			context.commit('APP_OPEN', '0000')
 			context.commit('APP_SORT_BY_DATE', '0000')
 		},

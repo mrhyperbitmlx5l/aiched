@@ -39,7 +39,8 @@
 				</div>
 				<div class="dog-menu-links">
 					<ul>
-						<li><a href="#" @click="onLink('0000')"><span>使用帮助</span></a></li>
+						<li><a href="#" @click="onLink('0000')"><span>关于</span></a></li>
+						<li><a href="#" @click="onLink('9999')"><span>使用帮助</span></a></li>
 						<li><a href="#" @click="onLink('0001')"><span>壁纸</span></a></li>
 						<li><a href="#" @click="onLink('0002')"><span>计算器</span></a></li>
 						<li><a href="#" @click="onLockScreen()"><span>锁屏</span></a></li>
